@@ -1,0 +1,477 @@
+{%load static%}
+<html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Krishi Sathi-home page</title>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Libre+Baskerville&family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Work+Sans:wght@400;500;600;700&display=swap");
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+html {
+  font-size: 62.5%;
+  /* 1rem = 10px */
+  overflow-x: hidden;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+.header {
+  padding: 0 4.8rem;
+  height: 10rem;
+  display: flex;
+  top:5px;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #F5FFFA;
+  border:1px solid rgb(192,192,192);
+}
+
+.header .logo {
+  height: 9rem;
+}
+
+.navbar-list {
+  display: flex;
+  gap: 4.8rem;
+  list-style: none;
+}
+
+.navbar-link:link,
+.navbar-link:visited {
+  display: inline-block;
+  text-transform: uppercase;
+  text-decoration: none;
+  font-size: 2rem;
+  font-weight: 500;
+  color: black;
+  transition: all 0.3s;
+}
+
+.navbar-link:hover,
+.navbar-link:active {
+  color: #364fc7;
+}
+
+.mobile-navbar-btn {
+  display: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.mobile-nav-icon {
+  width: 4rem;
+  height: 4rem;
+  color: black;
+}
+
+.mobile-nav-icon[name="close-outline"] {
+  display: none;
+}
+
+
+
+/* ===========================================
+Responsive Codes 
+======================================= */
+
+/* 980px  */
+@media (max-width: 65em) {
+  .mobile-navbar-btn {
+    display: block;
+    z-index: 999;
+    border: 3px solid #212529;
+    color: #212529;
+  }
+
+  .header {
+    position: relative;
+  }
+
+  {% comment %} .header .logo {
+    width: 40%;
+  } {% endcomment %}
+
+  .navbar {
+    /* display: none; */
+    width: 100%;
+    height: 100vh;
+    background: #F5FFFA;
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    /* to get the tranisition  */
+    transform: translateX(100%);
+    transition: all 0.5s linear;
+
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  .navbar-list {
+    flex-direction: column;
+    align-items: center;
+    color:white;
+  }
+
+  .active .navbar {
+    transform: translateX(0);
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
+
+  .active .mobile-navbar-btn .mobile-nav-icon[name="close-outline"] {
+    display: block;
+  }
+
+  .active .mobile-navbar-btn .mobile-nav-icon[name="menu-outline"] {
+    display: none;
+  }
+}
+
+/* Below 560px  */
+@media (max-width: 35em) {
+  .header {
+    padding: 0 2.4rem;
+  }
+
+  {% comment %} .header .logo {
+    width: 60%;
+  } {% endcomment %}
+}
+.a::before { content: '🏠'; }
+.d::before { content: '🌾'; }
+.b:before { content: 'ℹ️'; }
+.c::before { content: '🤒'; }
+.e::before { content: '💬'; }
+
+{% comment %} pradip news section {% endcomment %}
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@500&family=Roboto:wght@500&display=swap");
+
+
+
+:root {
+    --primary-text-color: #183b56;
+    --secondary-text-color: #577592;
+    --accent-color: #2294ed;
+    --accent-color-dark: #1d69a3;
+}
+
+section {
+    font-family: "Poppins", sans-serif;
+    color: var(--primary-text-color);
+}
+
+.pradip p {
+    font-family: "Roboto", sans-serif;
+    color: var(--secondary-text-color);
+    line-height: 1.4rem;
+}
+
+.pradip a {
+    text-decoration: none;
+}
+
+.pradip ul {
+    list-style: none;
+}
+
+.pradip .flex {
+    display: flex;
+    align-items: center;
+}
+
+.pradip .container {
+    max-width: 1180px;
+    margin-inline: auto;
+    overflow: hidden;
+}
+
+.pradip nav {
+    background-color: #f3faff;
+    box-shadow: 0 0 4px #bbd0e2;
+    position: fixed;
+    top: 0;
+    z-index: 99;
+    left: 0;
+    right: 0;
+}
+
+.pradip .main-nav {
+    justify-content: space-between;
+    padding-block: 8px;
+}
+
+ 
+.pradip .nav-links ul {
+    gap: 16px;
+}
+
+.pradip .hover-link {
+    cursor: pointer;
+}
+
+.pradip .hover-link:hover {
+    color: var(--secondary-text-color);
+}
+
+.pradip .hover-link:active {
+    color: red;
+}
+
+.pradip .nav-item.active {
+    color: var(--accent-color);
+}
+
+.pradip .search-bar {
+    height: 32px;
+    gap: 8px;
+}
+
+.pradip .news-input {
+    width: 200px;
+    height: 100%;
+    padding-inline: 12px;
+    border-radius: 4px;
+    border: 2px solid #bbd0e2;
+    font-family: "Roboto", sans-serif;
+}
+
+.pradip .search-button {
+    background-color: var(--accent-color);
+    color: white;
+    padding: 8px 24px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: "Roboto", sans-serif;
+}
+
+.pradip .search-button:hover {
+    background-color: var(--accent-color-dark);
+}
+
+.pradip main {
+    padding-block: 20px;
+    margin-top: 10px;
+}
+
+.pradip .cards-container {
+    justify-content: space-between;
+    flex-wrap: wrap;
+    row-gap: 20px;
+    align-items: start;
+}
+
+.pradip .card {
+    width: 360px;
+    min-height: 400px;
+    box-shadow: 0 0 4px #d4ecff;
+    border-radius: 4px;
+    cursor: pointer;
+    background-color: #fff;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.pradip .card:hover {
+    box-shadow: 1px 1px 8px #d4ecff;
+    background-color: #f9fdff;
+    transform: translateY(-2px);
+}
+
+.pradip .card-header img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+}
+
+.pradip .card-content {
+    padding: 12px;
+}
+
+.pradip .news-source {
+    margin-block: 12px;
+}
+{% comment %} pradip news section ends {% endcomment %}
+
+</style>
+
+  </head>
+  <body>
+    <header class="header">
+      <img
+        src="{%static "firstapp\images\krishi_sathi_logo.jpg"%}"
+        alt="krishi Sathi logo"
+        class="logo"
+      />
+
+      <nav class="navbar">
+        <ul class="navbar-list">
+            <li><a class="navbar-link a" href="/home">Home</a></li>
+            <li><a class="navbar-link b" href="{%url "cropInfo"%}">crop info</a></li>
+            <li><a class="navbar-link c" href="{%url "predict"%}">predict diesease</a></li>
+            <li><a class="navbar-link d" href="/recommend">recommender</a></li>
+            <li><a class="navbar-link e" href="{%url 'forumpage'%}">forum</a></li>
+
+        </ul>
+      </nav>
+
+      <div class="mobile-navbar-btn">
+        <ion-icon name="menu-outline" class="mobile-nav-icon"></ion-icon>
+        <ion-icon name="close-outline" class="mobile-nav-icon"></ion-icon>
+      </div>
+    </header>
+
+    <section class="pradip">
+      
+          {% comment %} <nav>
+              <div class="main-nav container flex">
+                  <div class="nav-links">
+                      <ul class="flex">
+                          <li class="hover-link nav-item" id="Agriculture" onclick="onNavItemClick('Agriculture')">News</li>
+                      </ul>
+                  </div
+              </div>
+          </nav> {% endcomment %}
+          
+      
+          <main>
+              <div class="cards-container container flex" id="cards-container">
+                  
+              </div>
+          </main>
+      
+          <template id="template-news-card">
+              <div class="card">
+                  <div class="card-header">
+                      <img src="https://via.placeholder.com/400x200" alt="news-image" id="news-img">
+                  </div>
+                  <div class="card-content">
+                      <h3 id="news-title">This is the Title</h3>
+                      <h6 class="news-source" id="news-source">End Gadget 26/08/2023</h6>
+                      <p class="news-desc" id="news-desc">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Recusandae saepe quis voluptatum quisquam vitae doloremque facilis molestias quae ratione cumque!</p>
+                  </div>
+              </div>
+          </template>
+    </section>
+
+   
+    <!-- ======================================== 
+          Our JavaScript Section Start  
+    ========================================  -->
+    <script
+      type="module"
+      src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"
+    ></script>
+    <script
+      nomodule
+      src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"
+    ></script>
+
+    
+<script>
+const mobile_nav = document.querySelector(".mobile-navbar-btn");
+const nav_header = document.querySelector(".header");
+
+const toggleNavbar = () => {
+  // alert("Plz Subscribe ");
+  nav_header.classList.toggle("active");
+};
+
+mobile_nav.addEventListener("click", () => toggleNavbar());
+
+//-----------------------------------------------pradip--------------------------------------------------
+const url="/api/news/";
+
+window.addEventListener("load", () => fetchNews("Agriculture"));
+
+function reload() {
+    window.location.reload();
+}
+
+async function fetchNews(query) {
+    const response = await fetch(`${url}?q=${query}`);
+    const data = await response.json();
+    bindData(data.articles);
+}
+
+function bindData(articles) {
+    const cardsContainer = document.getElementById("cards-container");
+    const newsCardTemplate = document.getElementById("template-news-card");
+
+    cardsContainer.innerHTML = "";
+
+    articles.forEach((article) => {
+        if (!article.urlToImage) return;
+        const cardClone = newsCardTemplate.content.cloneNode(true);
+        fillDataInCard(cardClone, article);
+        cardsContainer.appendChild(cardClone);
+    });
+}
+
+function fillDataInCard(cardClone, article) {
+    const newsImg = cardClone.querySelector("#news-img");
+    const newsTitle = cardClone.querySelector("#news-title");
+    const newsSource = cardClone.querySelector("#news-source");
+    const newsDesc = cardClone.querySelector("#news-desc");
+
+    newsImg.src = article.urlToImage;
+    newsTitle.innerHTML = article.title;
+    newsDesc.innerHTML = article.description;
+
+    const date = new Date(article.publishedAt).toLocaleString("en-US", {
+        timeZone: "Asia/Jakarta",
+    });
+
+    newsSource.innerHTML = `${article.source.name} · ${date}`;
+
+    cardClone.firstElementChild.addEventListener("click", () => {
+        window.open(article.url, "_blank");
+    });
+}
+
+let curSelectedNav = null;
+function onNavItemClick(id) {
+    fetchNews(id);
+    const navItem = document.getElementById(id);
+    curSelectedNav?.classList.remove("active");
+    curSelectedNav = navItem;
+    curSelectedNav.classList.add("active");
+}
+
+{% comment %} const searchButton = document.getElementById("search-button");
+const searchText = document.getElementById("search-text"); {% endcomment %}
+
+// searchButton.addEventListener("click", () => {
+//     const query = searchText.value;
+//     if (!query) return;
+//     fetchNews(query);
+//     curSelectedNav?.classList.remove("active");
+//     curSelectedNav = null;
+// });
+//----------------------------------pradip ends--------------------------------------------------
+    </script>
+  </body>
+</html>

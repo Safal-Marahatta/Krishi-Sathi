@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+        <meta http-equiv="Pragma" content="no-cache">
+        <meta http-equiv="Expires" content="0">
+
+        <style>
+            body {
+                font-family: 'Arial', sans-serif;
+                background-color: #f4f4f4;
+                margin: 0;
+                padding: 0;
+            }
+    
+            form {
+                max-width: 600px;
+                height:auto;
+                display:flex;
+                flex-direction:column;
+                margin: 20px auto;
+                background-color: #fff;
+                padding: 20px;
+                border-radius: 8px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            }
+    
+            .c1 {
+                display:flex;
+                flex-direction:column;
+                margin:17px 0;
+            }
+            p{
+                margin:0;
+            }
+    
+
+    
+            input {
+                width: 100%;
+                padding: 10px;
+                margin-top: 5px;
+                box-sizing: border-box;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+            }
+
+
+    
+            button {
+                background-color: #4caf50;
+                color: #fff;
+                padding: 10px 15px;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+            }
+    
+            button:hover {
+                background-color: #45a049;
+            }
+            #f9{
+                font-weight:bold;
+            }
+            #i{
+                align-self:center;
+            }
+            #id_profile_image{
+                border:none;
+                
+            }
+            #p3,#p5{
+                color:rgba(255,0,0,0.6);
+                padding-left:10px;
+            }
+    </style>
+    </head>
+    <body>
+        <form action="{%url 'register'%}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="c1" id="a">
+                <p id="f1">{{form.first_name.label}}</p>
+                {{form.first_name}}
+                <p class="para" id="p1"><p>
+            </div>
+            <div class="c1" id="b">
+                <p id="f2">{{form.last_name.label}}</p>
+                {{form.last_name}}
+                <p class="para" id="p2"><p>
+            </div>
+            <div class="c1" id="c">
+                <p id="f3">{{form.username.label}}</p>
+                {{form.username}}
+                <p class="para" id="p3"><p>
+            </div>
+            <div class="c1" id="d">
+                <p id="f4">{{form.email.label}}</p>
+                {{form.email}}
+                <p class="para" id="p4"><p>
+            </div>
+            <div class="c1" id="e">
+                <p id="f5">{{form.phone_number.label}}</p>
+                {{form.phone_number}}
+                <p class="para" id="p5"><p>
+            </div>
+            <div class="c1" id="f">
+                <p id="f6">{{form.occupation.label}}</p>
+                {{form.occupation}}
+                <p class="para" id="p6"><p>
+            </div>
+            <div class="c1" id="g">
+                <p id="f7">{{form.password.label}}</p>
+                {{form.password}}
+                <p class="para" id="p7"><p>
+            </div>
+            <div class="c1" id="h">
+                <p id="f8">{{form.confirm_password.label}}</p>
+                {{form.confirm_password}}
+                <p class="para" id="p8"><p>
+            </div>
+            <div class="c1" id="i">
+                <p id="f9">{{form.profile_image.label}}</p>
+                {{form.profile_image}}
+            </div>
+            <button id="button">submit</button>
+        </form>
+
+        
+        <script>
+            
+//------------------------------------------------------------------------------------------------------------------------------------------------------------//            
+                                //dynamically telling whether the username is taken or not
+//-------------------------------------------------------------------------------------------------------------------------------------------------------------//
+            username=document.querySelector("#id_username")
+            username.addEventListener("input",async function(event){
+                searchQuery=username.value;
+                console.log(searchQuery);
+                if (searchQuery!==" "){
+                    try{
+                        const response=await fetch(`http://127.0.0.1:8000/api/username_warning/?query=${encodeURIComponent(searchQuery)}`)
+                        if(!response.ok){
+                            throw new Error(`HTTP error ! status: ${response.status}`);
+                        }
+                        const data=await response.json()
+                        updateSearchResultsUI(data);
+                    }catch{
+                        console.error("error:",error);
+                    }
+                }
+                else{
+                    //clear the search results if the search query is empty
+                    clearSearchResults();
+                  }
+            });
+            function clearSearchResults(){
+                var under_paragraph=document.querySelector("#p3");
+                var box=document.querySelector("#id_username");
+                var button=document.querySelector("#button");
+                box.style.backgroundColor="white";
+                under_paragraph.innerText="";
+                button.style.display="block";
+            }
+            function updateSearchResultsUI(data){
+                clearSearchResults();
+                var box=document.querySelector("#id_username")
+                var under_paragraph=document.querySelector("#p3");
+                var button=document.querySelector("#button");
+                if (data.message=="yes"){
+                    under_paragraph.innerText="username already taken";
+                    box.style.backgroundColor="rgba(255,0,0,0.3)";
+                    button.style.display="none";
+                }
+            }
+//------------------------------------------------------------------------------------------------------------------------------------------------------------------//            
+            phonenumber=document.querySelector("#id_phone_number")
+            phonenumber.addEventListener("input",async function(event){
+                searchQuery=phonenumber.value;
+                console.log(searchQuery);
+                if (searchQuery!==""){
+                    try{
+                        const response=await fetch(`http://127.0.0.1:8000/api/phonenumber_warning/?query=${encodeURIComponent(searchQuery)}`)
+                        if(!response.ok){
+                            throw new Error(`HTTP error ! status: ${response.status}`);
+                        }
+                        const data=await response.json()
+                        updateSearchResultsUI2(data);
+                    }catch{
+                        console.error("error:",error);
+                    }
+                }
+                else{
+                    //clear the search results if the search query is empty
+                    clearSearchResults2();
+                  }
+            });
+            function clearSearchResults2(){
+                var under_paragraph=document.querySelector("#p5");
+                var box=document.querySelector("#id_phone_number");
+                var button=document.querySelector("#button");
+                box.style.backgroundColor="white";
+                under_paragraph.innerText="";
+                button.style.display="block";
+            }
+            function updateSearchResultsUI2(data){
+                clearSearchResults2();
+                var box=document.querySelector("#id_phone_number")
+                var under_paragraph=document.querySelector("#p5");
+                var button=document.querySelector("#button");
+                if (data.message=="yes"){
+                    under_paragraph.innerText="Phonenumber already taken";
+                    box.style.backgroundColor="rgba(255,0,0,0.3)";
+                    button.style.display="none";
+                }
+            }
+        </script>
+    </body>
+</html>

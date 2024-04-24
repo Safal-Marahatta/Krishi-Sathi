@@ -1,0 +1,148 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ crop.name }} Details</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        .navbar {
+            background-color: #333;
+            overflow: hidden;
+            display:flex;
+            justify-content:space-between;
+        }
+
+        .navbar a {
+            float: left;
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+
+        .navbar a:hover {
+            background-color: silver;
+            color: black;
+        }
+
+        .content {
+            max-width: 800px;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            display:flex;
+            flex-direction:column;
+        }
+
+        .image_container {
+            text-align: center;
+        }
+
+        .img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+
+        .informations {
+            margin-top: 20px;
+        }
+
+        h1 {
+            color: #333;
+            text-transform: capitalize;
+            border-top:1px solid grey;
+        }
+
+        ol {
+            margin: 0;
+            padding-left: 20px;
+        }
+        .heading{
+            border-top:none;
+            align-self:center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="navbar">
+        <a href="{%url "cropInfo"%}"><i class="fas fa-backward"></i> Back</a>
+        <a href="{% url "homepage"%}">Home</a>
+    </div>
+
+    <section class="content">
+        <h1 class="heading">{{crop.name}} Details</h1>
+        <div class="image_container">
+            <img src="{{crop.picture.url}}" alt="{{crop.name}}" class="img">
+        </div>
+        <div class="informations">
+            <div class="varieties">
+                <h1>varieties</h1>
+                <ol class="var">
+                    {{crop.varieties|safe}}
+                </ol>
+            </div>
+            <div class="climateandsoil">
+                <h1>climate and soil</h1>
+                {{crop.climate_and_soil_requirements}}
+            </div>
+            <div class="planting_time">
+                <h1>planting time</h1>
+                {{crop.planting_time}}
+            </div>
+            <div class="watering_needs">
+                <h1>watering needs</h1>
+                {{crop.watering_needs}}
+            </div>
+            <div class="fertilization">
+                <h1>fertilization</h1>
+                {{crop.fertilization}}
+            </div>
+            <div class="pest_and_diesease">
+                <h1>pest and disease</h1>
+                {{crop.pest_and_disease_management}}
+            </div>
+            <div class="harvesting_time">
+                <h1>harvesting time</h1>
+                {{crop.harvesting_time }}
+            </div>
+            <div class="post_harvest_handling">
+                <h1>post harvest handling</h1>
+                {{crop.post_harvest_handling}}
+            </div>
+            <div class="Market_Information">
+                <h1>market information</h1>
+                {{crop.market_information}}
+            </div>
+            <div class="government_schemes">
+                <h1>government schemes</h1>
+                {{crop.government_schemes_and_subsidies}}
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Add any JavaScript functionality here
+    </script>
+</body>
+
+</html>
+
+
+
+
+

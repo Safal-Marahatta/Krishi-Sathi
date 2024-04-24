@@ -1,0 +1,308 @@
+
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <title>Crop Information Portal</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display:flex;
+            flex-direction:column;
+            border:2px solid grey;
+        }
+
+        li{
+            margin:5px 0 5px 0;
+        }
+
+        nav {
+            background-color: #404040;
+            text-align: center;
+        }
+
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+            display:flex;
+            flex-direction:row;
+            justify-content:space-around;
+            align-items:center;
+            font-weight:bold;
+        }
+        @media (max-width:420px){
+            nav ul{
+                flex-direction:column;
+            }
+        }
+        section{
+            
+        }
+        .crop-list{
+            display:flex;
+            flex-direction:row;
+            flex-wrap:wrap;
+            justify-content:flex-start;
+        }
+        img{
+            height:200px;
+            width:200px;
+        }
+        .crop-item{
+            margin:50px 50px 50px 50px;
+            {% comment %} border:2px solid grey; {% endcomment %}
+            flex-grow:1;
+            transition: transform 0.5s ease;   
+        }
+        .crop-item:hover{
+            transform:scale(1.1);
+        }
+        .crop-item a{
+            display:flex;
+            flex-direction:column;
+            justify-content:center;
+            align-items:center;
+        }
+        a{
+            text-decoration:none;
+            color:	#6495ed;
+        }
+        .c1{
+            text-decoration:underline;
+        }
+        li{
+            transition: transform 0.5s ease;
+        }
+        li:hover{
+            transform:scale(1.1);
+        }
+        .navbar{
+            padding:8px;
+        }
+        .navbar a{
+            color:black;
+        }
+
+
+    </style>
+</head>
+
+<body>
+    {% comment %} <header>
+        <h1>Crop Information Portal</h1>
+    </header> {% endcomment %}
+    <div class="navbar">
+        <a href="{%url "homepage"%}"><i class="fas fa-backward"></i> Back</a>
+    </div>
+    <nav>
+        <ul>
+            <li><a href="#" onclick="showSection('vegetable-crops')" class="c1">Vegetable Crops</a></li>
+            <li><a href="#" onclick="showSection('food-crops')" class="c2">Food Crops</a></li>
+            <li><a href="#" onclick="showSection('cash-crops')" class="c3">Cash Crops</a></li>
+        </ul>
+    </nav>
+    <section id="vegetable-crops">
+        {% comment %} <h2>Vegetable Crops</h2> {% endcomment %}
+        <div class="crop-list">
+            <div class="crop-item">
+                <a href="{%url "crop_detail" name='carrot'%}">
+                    <img src="{%static "firstapp/images/carrot.jpg"%}" alt="Carrot">
+                    Carrot
+                </a>
+            </div>
+            <div class="crop-item">
+                <a href="{%url "crop_detail" name='tomato'%}">
+                    <img src="{%static "firstapp/images/tomato.jpg"%}" alt="Tomato">
+                    Tomato
+                </a>
+            </div>
+            <div class="crop-item">
+                <a href="{%url "crop_detail" name='broccoli'%}">
+                    <img src="{%static "firstapp/images/broccoli.jpg"%}" alt="Broccoli">
+                    Broccoli
+                </a>
+            </div>
+            <div class="crop-item">
+                <a href="{%url "crop_detail" name='spinach'%}">
+                    <img src="{%static "firstapp/images/spinach.jpg"%}" alt="Spinach">
+                    Spinach
+                </a>
+            </div>
+            <div class="crop-item">
+                <a href="{%url "crop_detail" name='potato'%}">
+                    <img src="{%static "firstapp/images/potato1.jpg"%}" alt="Potato">
+                    Potato
+                </a>
+            </div>
+            <div class="crop-item">
+                <a href="{%url "crop_detail" name='onion'%}">
+                    <img src="{%static "firstapp/images/onion.jpg"%}" alt="Onion">
+                    Onion
+                </a>
+            </div>
+            <div class="crop-item">
+                <a href="{%url "crop_detail" name='peas'%}">
+                    <img src="{%static "firstapp/images/peas.jpg"%}" alt="Peas">
+                    Peas
+                </a>
+            </div>
+            <div class="crop-item">
+                <a href="{%url "crop_detail" name='cabbage'%}">
+                    <img src="{%static "firstapp/images/cabbage.jpg"%}" alt="Cabbage">
+                    Cabbage
+                </a>
+            </div>
+            <!-- Remaining vegetable crops -->
+        </div>
+    </section>
+
+
+    <section id="food-crops" style="display: none;">
+        <div class="crop-list">
+            <div class="crop-item">
+                <a href="{%url "crop_detail" name='wheat'%}">
+                    <img src="{%static "firstapp/images/wheat.jpg"%}" alt="Wheat">
+                    Wheat
+                </a>
+            </div>
+            <div class="crop-item">
+                <a href="{%url "crop_detail" name='rice'%}">
+                    <img src="{%static "firstapp/images/rice.jpg"%}" alt="Rice">
+                    Rice
+                </a>
+            </div>
+            <div class="crop-item">
+                <a href="{%url "crop_detail" name='maize'%}">
+                    <img src="{%static "firstapp/images/maize.jpg"%}" alt="Maize">
+                    Maize
+                </a>
+            </div>
+            <div class="crop-item">
+                <a href="{%url "crop_detail" name='millet'%}">
+                    <img src="{%static "firstapp/images/millet.jpg"%}" alt="Millet">
+                    Millet
+                </a>
+            </div>
+            <div class="crop-item">
+                <a href="{%url "crop_detail" name='lentils'%}">
+                    <img src="{%static "firstapp/images/lentils.jpg"%}" alt="Lentils">
+                    Lentils
+                </a>
+            </div>
+            <div class="crop-item">
+                <a href="{%url "crop_detail" name='barley'%}">
+                    <img src="{%static "firstapp/images/barley.jpg"%}" alt="Barley">
+                    Barley
+                </a>
+            </div>
+            <div class="crop-item">
+                <a href="{%url "crop_detail" name='soyabean'%}">
+                    <img src="{%static "firstapp/images/soyabeans.jpg"%}" alt="Soybean">
+                    Soybean
+                </a>
+            </div>
+            <div class="crop-item">
+                <a href="{%url "crop_detail" name='oats'%}">
+                    <img src="{%static "firstapp/images/oats.jpg"%}" alt="Oats">
+                    Oats
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section id="cash-crops" style="display: none;">
+        <div class="crop-list">
+            <div class="crop-item">
+                <a href="{%url "crop_detail" name='cotton'%}">
+                    <img src="{%static "firstapp/images/cotton.jpg"%}" alt="Cotton">
+                    Cotton
+                </a>
+            </div>
+            <div class="crop-item">
+                <a href="{%url "crop_detail" name='sugercane'%}">
+                    <img src="{%static "firstapp/images/sugarcane.jpg"%}" alt="Sugarcane">
+                    Sugarcane
+                </a>
+            </div>
+            <div class="crop-item">
+                <a href="{%url "crop_detail" name='tobacco'%}">
+                    <img src="{%static "firstapp/images/tobacco.jpg"%}" alt="Tobacco">
+                    Tobacco
+                </a>
+            </div>
+            <div class="crop-item">
+                <a href="{%url "crop_detail" name='coffee'%}">
+                    <img src="{%static "firstapp/images/coffee.jpg"%}" alt="Coffee">
+                    Coffee
+                </a>
+            </div>
+            <div class="crop-item">
+                <a href="{%url "crop_detail" name='tea'%}">
+                    <img src="{%static "firstapp/images/tea.jpg"%}" alt="Tea">
+                    Tea
+                </a>
+            </div>
+            <div class="crop-item">
+                <a href="{%url "crop_detail" name='peanuts'%}">
+                    <img src="{%static "firstapp/images/peanuts.jpg"%}" alt="Peanuts">
+                    Peanuts
+                </a>
+            </div>
+            <div class="crop-item">
+                <a href="{%url "crop_detail" name='almonds'%}">
+                    <img src="{%static "firstapp/images/almonds.jpg"%}" alt="Almonds">
+                    Almonds
+                </a>
+            </div>
+            <div class="crop-item">
+                <a href="{%url "crop_detail" name='rubber'%}">
+                    <img src="{%static "firstapp/images/rubber.jpg"%}" alt="Rubber">
+                    Rubber
+                </a>
+            </div>
+        </div>
+    </section>
+
+
+
+    <!-- Remaining sections -->
+    <script>
+        function showSection(sectionId) {
+            // Hide all sections
+            document.querySelectorAll('section').forEach(function (section) {
+                section.style.display = 'none';
+            });
+
+            // Show the selected section
+            document.getElementById(sectionId).style.display = 'block';
+        }
+
+        let c1=document.querySelector(".c1");
+        let c2=document.querySelector(".c2");
+        let c3=document.querySelector(".c3");
+        c1.addEventListener("click",function(){
+            c1.style.textDecoration = 'underline';
+            c2.style.textDecoration = 'none';
+            c3.style.textDecoration = 'none';
+        });
+        c2.addEventListener("click",function(){
+            c2.style.textDecoration = 'underline';
+            c1.style.textDecoration = 'none';
+            c3.style.textDecoration = 'none';
+        });
+        c3.addEventListener("click",function(){
+            c3.style.textDecoration = 'underline';
+            c2.style.textDecoration = 'none';
+            c1.style.textDecoration = 'none';
+        });
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,191 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FarmersHub - Login</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            overflowX:hidden;
+        }
+        h1{
+            font-size:40px;
+        }
+
+        .login-container {
+            display: flex;
+            width: 100vw;
+            height: 100vh;
+        }
+
+        .info-section {
+            flex: 1;
+            overflow: hidden;
+            position: relative;
+            transition: flex 0.5s;
+        }
+
+        .info-section img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+        .info-section:hover img {
+            transform: scale(1.1);
+        }
+
+        .login-section {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: #e3ebdd;
+            {% comment %} padding: 2em; {% endcomment %}
+        }
+        form div{
+            display:flex;
+            flex-direction:column;
+            justify-content:center;
+            align-items:center;
+
+        }
+
+        input {
+            width: 100%;
+            height:25px;
+            padding: 1em;
+            margin: 1em 0;
+            border: 1px solid #ccc;
+            border-radius: 20px;
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+        input:hover {
+            background-color: #d8e8cc;
+            border-color: #d8e8cc;
+        }
+        
+
+        form input:nth-child(3) {
+            margin-bottom:0;
+        }
+
+        button {
+            background-color: #4fa60d;
+            color: #fff;
+            padding: 0.75em 1.5em;
+            border: none;
+            border-radius: 18px;
+            cursor: pointer;
+            margin-top: 1.4em;
+            font-weight:700;
+            font-size:15px;
+        }
+
+        button:hover {
+            background-color: #64bf1f;
+        }
+
+        .forgot-password {
+            color:#4fa60d ;
+            text-decoration: none;
+            margin-right: 1em;
+        }
+
+        .register-button {
+            color: #fff;
+            text-decoration: none;
+            background-color: #4fa60d;
+            padding: 0.5em 1em 0.6em 1em;
+            border-radius: 18px;
+            display: inline-block;
+            font-weight:600;
+            font-size:17px;
+        }
+
+        .register-button:hover {
+            background-color:#64bf1f ;
+        }
+
+        @media only screen and (max-width: 1050px) {
+            .login-container {
+                flex-direction: column;
+            }
+
+            .info-section {
+                flex: 1;
+            }
+
+            
+        }
+        @media only screen and (max-width: 500px) {
+            input{
+                width:92%;
+                
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <div class="login-container">
+
+        <!-- Info Section -->
+        <div class="info-section">
+            <img id="infoImage" src="{%static 'firstapp/images/download.jpg'%}" alt="FarmersHub Info">
+        </div>
+
+        <!-- Login Section -->
+        <div class="login-section">
+            <h1>Login</h1>
+            <form action="/" method="Post">
+                {%csrf_token%}
+                {{form.username}}
+                {{form.password}}
+                <div>
+                    <a href="#" class="forgot-password">Forgot Password?</a>
+                    <button type="submit">Login</button>
+                </div>
+            </form>
+            <p><b>Don't have an account?</b> <a href="{% url 'register'%}" class="register-button">Register</a></p>
+        </div>
+
+    </div>
+
+    <script>
+
+
+        let currentImageIndex = 0;
+        const images = [
+            "{%static 'firstapp/images/download.jpg'%}",
+            "{%static 'firstapp/images/farmer1.jpg'%}",
+            "{%static 'firstapp/images/farmer2.jpg'%}",
+            "{%static 'firstapp/images/farmer3.jpg'%}",
+            "{%static 'firstapp/images/download.jpg'%}"
+        ];
+
+        function changeImage() {
+            currentImageIndex = (currentImageIndex + 1) % images.length;
+            document.getElementById('infoImage').src = images[currentImageIndex];
+        }
+
+        function resetImage() {
+            document.getElementById('infoImage').src = images[0];
+        }
+
+        setInterval(changeImage, 5000); // Change image every 5 seconds
+    </script>
+
+</body>
+
+</html>

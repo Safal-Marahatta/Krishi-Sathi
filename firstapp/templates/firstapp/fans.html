@@ -1,0 +1,658 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Farmers Forum</title>
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v2.1.6/css/unicons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Open Sans', sans-serif;
+            word-break: break-all;
+        }
+        ::-webkit-scrollbar {
+            width: 6px; /* Set the width of the scrollbar */
+        }
+        ::-webkit-scrollbar-thumb {
+            background-color: #888; /* Color of the scrollbar thumb */
+            border-radius: 6px; /* Rounded corners for the scrollbar thumb */
+        }
+        ::-webkit-scrollbar-track {
+            background-color: transparent; /* Make the track transparent */
+        }
+          body {
+            background: white;
+            position:relative;
+            width:100vw;
+            overflowX:hidden;
+            {% comment %} overflow:hidden; {% endcomment %}
+          }
+          .search_form{
+            position:sticky;
+            z-index:10;
+            top:0px;
+            left:0px;
+            width:100%;
+            height:60px;
+            background: rgb(95,158,160);
+          }
+          .nav {
+            width: 100%;
+            padding: 15px 200px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+          }
+          .nav,
+          .nav .nav-links {
+            display: flex;
+            align-items: center;
+          }
+          .nav {
+            justify-content: space-between;
+          }
+          a {
+            color: #fff;
+            text-decoration: none;
+          }
+          .nav .logo {
+            font-size: 22px;
+            font-weight: 500;
+          }
+          .nav .nav-links {
+            column-gap: 20px;
+            list-style: none;
+          }
+          .nav .nav-links a {
+            transition: all 0.2s linear;
+          }
+          .nav.openSearch .nav-links a {
+            opacity: 0;
+            pointer-events: none;
+          }
+          #searchIcon{
+            transition: color 0.3s ease-in-out;
+            transition: all 0.2s linear;
+          }
+          .fans_feed_cont a{
+            {% comment %} color:#002D62; {% endcomment %}
+            transform:scale(1.1);
+            font-weight:bold;
+            border-bottom:2px solid yellow;
+
+          }
+
+          {% comment %} links lai hover garda ko including search{% endcomment %}
+          li{
+            transition: transform 0.3s ease-in-out, color 0.3s ease-in-out;
+          }
+
+          .nav-links li:hover:not(.fans_feed_cont){     
+            transform: scale(1.1);
+          }
+          li a{
+            transition: color 0.3s ease-in-out;
+          }
+          li:hover:not(.fans_feed_cont) a{
+            color:#7FFFD4;
+          }
+
+          #searchIcon:hover{
+            color:#7FFFD4;
+            font-weight:700;
+            transform: scale(1.2);
+          }
+          #ask_icon:hover{
+            cursor:pointer;
+          }
+          {% comment %} hover end {% endcomment %}
+
+          .nav .search-icon {
+            color: #fff;
+            font-size: 20px;
+            cursor: pointer;
+          }
+          .nav .search-box {
+            position: absolute;
+            right: 250px;
+            height: 45px;
+            max-width: 555px;
+            width: 100%;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.2s linear;
+          }
+          .nav.openSearch .search-box {
+            opacity: 1;
+            pointer-events: auto;
+          }
+          .search-box .search-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            left: 15px;
+            color: #4a98f7;
+            transform: translateY(-50%);
+          }
+          .search-box input {
+            height: 100%;
+            width: 100%;
+            border: none;
+            outline: none;
+            border-radius: 6px;
+            background-color: #fff;
+            padding: 0 15px 0 45px;
+          }
+          
+          .nav .navOpenBtn,
+          .nav .navCloseBtn {
+            display: none;
+          }
+          
+          /* responsive */
+          @media screen and (max-width: 1160px) {
+            .nav {
+              padding: 15px 100px;
+            }
+            .nav .search-box {
+              right: 150px;
+            }
+          }
+          @media screen and (max-width: 950px) {
+            .nav {
+              padding: 15px 50px;
+            }
+            .nav .search-box {
+              right: 100px;
+              max-width: 400px;
+            }
+          }
+          @media screen and (max-width: 768px) {
+            .nav .navOpenBtn,
+            .nav .navCloseBtn {
+              display: block;
+            }
+            .nav {
+              padding: 15px 20px;
+            }
+            .nav .nav-links {
+              position: fixed;
+              top: 0;
+              left: -100%;
+              height: 100%;
+              max-width: 280px;
+              width: 100%;
+              padding-top: 100px;
+              row-gap: 30px;
+              flex-direction: column;
+              background-color: #11101d;
+              box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+              transition: all 0.4s ease;
+              z-index: 100;
+            }
+            .nav.openNav .nav-links {
+              left: 0;
+            }
+            .nav .navOpenBtn {
+              color: #fff;
+              font-size: 20px;
+              cursor: pointer;
+            }
+            .nav .navCloseBtn {
+              position: absolute;
+              top: 20px;
+              right: 20px;
+              color: #fff;
+              font-size: 20px;
+              cursor: pointer;
+            }
+            .nav .search-box {
+              top: calc(100% + 10px);
+              max-width: calc(100% - 20px);
+              right: 50%;
+              transform: translateX(50%);
+              box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            }
+          }
+          .search_recommendaion{
+            position:absolute;
+            color:black;
+            display:flex;
+            flex-direction:column;
+            justify-content:flex-start;
+            align-items:flex-start;
+            padding:5px 0 0 0;
+            min-height:140px;
+            width:100%;
+            background-color:White;
+            top:50px;
+            border-radius:17px;
+            border:2px solid rgb(192,192,192);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+          }
+          .search_recommendaion a{
+            color:black;
+            padding:10px 0 10px 10px;
+            font-weight:bold;
+          }
+
+
+/*navbar ends................................................................................................................*/
+/*...........................................................................................................................*/
+
+        main{
+            display:block;
+            margin:10px 0 0 0;
+            position:relative;
+        }
+        .all_middle{
+            display:flex;
+            flex-direction:row;
+            justify-content:center;
+            width:100vw;
+
+        }
+        .middle_part{
+            height:auto;
+            {% comment %} bich ko part ko width ghatauna badauna xa vani yeta {% endcomment %}
+            box-sizing: border-box;
+            background-color:white;
+            display:flex;
+            flex-direction:column;
+            justify-content:flex-start;
+            border-radius:8px;
+            width:700px;
+            color:black;
+            
+        }
+
+{% comment %} this is for the side navigation {% endcomment %}
+
+.side_navigation{
+    font-size:19px;
+    background-color:rgb(245,245,245);
+    position:sticky;
+    width:300px;
+    height:85vh;
+    z-index:5;
+    top:55px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+}
+.thulo_view{
+    display:flex;
+    flex-direction:column;
+    justify-content:space-around;
+    align-items:flex-start;
+    flex-grow:1;
+}
+.side_nav_home{
+    cursor: pointer;
+    transition: color 0.3s ease-in-out, transform 0.3s ease-in-out;
+
+}
+.side_nav_home:hover{
+    color: #e74c3c;
+    transform: scale(1.1);
+}
+.side_nav_home a:hover{
+    color: #e74c3c;
+}
+.sano_view{
+    display:none;
+}
+.sano_view a{
+    color:black;
+}
+.side_nav_home a{
+    color:black;
+}
+{% comment %}  side navigation ends {% endcomment %}
+
+
+
+
+{% comment %} this is for the right part of side navigation {% endcomment %}
+.right_suggestions{
+    background: rgb(245,245,245);
+    position:sticky;
+    top:20px;
+    width:300px; 
+    height:85vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+}
+
+{% comment %}  right part ends {% endcomment %}
+
+
+
+
+{% comment %} media queries part for middle part/side nav part {% endcomment %}
+
+@media (max-width: 1302px) {
+    .side_navigation{
+        width:190px;
+    }
+}
+@media (max-width: 1231px) {
+    .right_suggestions{
+        display:none;
+    }
+}
+@media (max-width: 900px) {
+    .side_navigation{
+        max-width:70px;
+    }
+    .thulo_view{
+        display:none;
+    }
+    .sano_view{
+        display:flex;
+        color:black;
+        flex-direction:column;
+        justify-content:space-around;
+        flex-grow:1;
+    }
+    .sano_view i{
+        transition: color 0.3s ease-in-out, transform 0.3s ease-in-out;
+        cursor: pointer;
+    }
+    .sano_view i:hover{
+        color: #e74c3c;
+        transform: scale(1.2); 
+    }
+    .middle_part{
+        {% comment %} width:auto; {% endcomment %}
+        color:black;
+    }
+}
+@media (max-width: 790px) {
+    .middle_part{
+        width:auto;
+        flex-grow:1;
+    }
+}
+
+{% comment %} end of mediaquery for the middle part {% endcomment %}
+
+{% comment %} this section is for the all people parts {% endcomment %}
+.all_people{
+    padding:10px;
+    background-color:white;
+    display:flex;
+    flex-direction:column;
+}
+.person1{
+    display:flex;
+    flex-direction:row;
+    justify-content:flex-start;
+    align-items:flex-start;
+    box-sizing: border-box; /* Ensures padding is included in the size */
+    padding:10px;
+    {% comment %} border:1px solid rgb(211,211,211); {% endcomment %}
+    border-radius:5px;
+    margin-bottom:5px;
+}
+.person1:hover{
+   background-color:rgba(192,192,192,0.15);
+   cursor:pointer; 
+}
+.profile-pic-container{
+    height:80px;
+    width:80px;
+}
+.profile-pic-image{
+    height:100%;
+    width:100%;
+    object-fit: cover; /* Preserves aspect ratio and covers the entire container */
+    border-radius:10px;
+    border:1px solid grey;
+
+}
+.person-detail{
+    display:flex;
+    flex-direction:column;
+    justify-content:flex-start;
+    align-items:flex-start;
+    margin-left:20px;
+}
+.details{
+    font-weight:bold;
+}
+{% comment %} end of the all people section {% endcomment %}
+
+    </style>
+</head>
+<body>
+    <form method="GET" action="{% url 'search_people' %}" class="search_form">
+        <nav class="nav">
+            <i class="uil uil-bars navOpenBtn"></i>
+            <a href="#" class="logo">KrishiSathi</a>
+    
+            <ul class="nav-links">
+            <i class="uil uil-times navCloseBtn"></i>
+            <li><a href="{%url "my_profile" %}"><i class="fas fa-user-circle"></i> Profile</a></li>
+            <li id="ask_icon"><a href="{%url "forumpage"%}"><i class="fas fa-newspaper"></i> Explore</a></li>
+            <li><a href="{%url 'following_feed'%}"><i class="fas fa-user-friends following_feed"></i> Following Feeds</a></li>
+            <li class="fans_feed_cont"><a href="#"><i class="fas fa-users"></i> Fans</a></li>
+            <li><a href="/logout/"><i class="fas fa-sign-out-alt"></i> Log out</a></li>
+            </ul>
+            <i class="uil uil-search search-icon" id="searchIcon"></i>
+            <div class="search-box">
+                <div class="search_recommendaion">
+
+                </div>
+                <i class="uil uil-search search-icon"></i>
+                <input type="text" placeholder="Search for people..." id="searchInput"/>
+            </div>
+        </nav>
+    </form>
+
+    <main>
+        <div class="all_middle">
+            <section class="side_navigation">
+                <div class="thulo_view">
+                    <h1>Krishi Talk</h1>
+                    <div class="side_nav_home">
+                        <a href="{%url "homepage"%}"><i class="fas fa-home"></i>HOME</a>   
+                    </div>
+                    <div class="side_nav_home">
+                        <a href="{%url "predict"%}"><i class="fas fa-medkit"></i>Predict Diesease</a>   
+                    </div>
+                    <div class="side_nav_home">
+                        <a href="{%url "cropInfo"%}"><i class="fas fa-seedling"></i>Recommendation</a>   
+                    </div>
+                    <div class="side_nav_home">
+                        <a href="{%url "cropInfo"%}"><i class="fas fa-info-circle"></i>Information</a>   
+                    </div>
+                    <div class="side_nav_home">
+                        <a a href="/logout/"><i class="fas fa-sign-out-alt"></i>Log Out</a>   
+                    </div>
+                </div>
+                <div class="sano_view">
+                    <a href="{%url "homepage"%}"><i class="fas fa-home"></i></a>
+                    <a href="{%url "cropInfo"%}"><i class="fas fa-medkit"></i></a>
+                    <a href="{%url "cropInfo"%}"><i class="fas fa-seedling"></i></a>
+                    <a href="{%url "cropInfo"%}"><i class="fas fa-info-circle"></i></a>
+                    <a href="/logout/"><i class="fas fa-sign-out-alt"></i></a>
+                </div>
+            </section>
+
+
+            <section class="middle_part">
+                <div class="all_people"> 
+                    {%for people in peoples%}
+                    <div class="person1" user_slug={{people.slug}}>
+                        <div class="profile-pic-container">
+                            <img src="{{people.profile_picture.url|default:'/none'}}" alt="Image" class="profile-pic-image">
+                        </div>
+                        <div class="person-detail">
+                            <p class="details" id="detail1">{{people.username}}</p>
+                            <p class="details" id="detail2">{{people.occupation}}</p>
+                        </div>
+                    </div>
+                    {%endfor%}
+                </div>
+            </section>
+
+
+            <section class="right_suggestions">
+                <p>Advertisement</p>
+            </section>
+
+        </div>
+    </main>
+
+
+<!--...................................................................................................................................-->
+
+    <script>
+ //--------------------------------------------------------------------------------------------------------------------------------------------------------       
+                                                //  yo chai form submission ko lagi section ho enter hanesi search ma     
+//-------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+document.getElementById('searchInput').addEventListener('keydown', function (event) {
+    if (event.key === 'Enter') {
+        event.preventDefault(); // Prevent the default form submission behavior
+
+        // Get the search input value
+        var searchQuery = document.getElementById('searchInput').value;
+
+        // Construct the URL with the query parameter
+        var searchURL = "{%url "search_people" %}"+'?query=' + encodeURIComponent(searchQuery);
+
+        // Redirect to the search URL
+        window.location.href = searchURL;
+    }
+});
+
+
+
+
+
+
+//----------------------------------------------------------------------------------------------------------------------------------------------------------  
+                                        //navbar section       
+//---------------------------------------------------------------------------------------------------------------------------------------------------------       
+
+const nav = document.querySelector(".nav"),
+  searchIcon = document.querySelector("#searchIcon"),
+  navOpenBtn = document.querySelector(".navOpenBtn"),
+  navCloseBtn = document.querySelector(".navCloseBtn");
+
+searchIcon.addEventListener("click", () => {
+  nav.classList.toggle("openSearch");
+  nav.classList.remove("openNav");
+  if (nav.classList.contains("openSearch")) {
+    return searchIcon.classList.replace("uil-search", "uil-times");
+  }
+  searchIcon.classList.replace("uil-times", "uil-search");
+});
+
+navOpenBtn.addEventListener("click", () => {
+  nav.classList.add("openNav");
+  nav.classList.remove("openSearch");
+  searchIcon.classList.replace("uil-times", "uil-search");
+});
+navCloseBtn.addEventListener("click", () => {
+  nav.classList.remove("openNav");
+});
+
+//-------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+// this is the section for getting the dynamic search results
+//--------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+
+searchInput=document.querySelector("#searchInput")
+searchInput.addEventListener("input",async function(event){
+  //get the search input value
+  console.log(searchInput.value);
+  searchQuery=searchInput.value
+  if(searchQuery.trim() !==''){//yedi value empty xaina vani
+    try{
+      //make an asynchronous fetch request to the search ApI endpoint
+      const response=await fetch(`/api/search_people_suggestion/?query=${encodeURIComponent(searchQuery)}`);
+
+      if(!response.ok){
+        throw new Error(`HTTP error ! status: ${response.status}`);
+      }
+      const data=await response.json();
+      //process the search results and dynamically update the UI
+      updateSearchResultsUI(data);
+    }
+    catch(error){
+      console.error("error:",error);
+    }
+
+  }
+  else{
+    //clear the search results if the search query is empty
+    clearSearchResults();
+  }
+});
+
+function updateSearchResultsUI(results){
+  clearSearchResults();
+  var resultsList=document.querySelector('.search_recommendaion')//yo vitra dynamically add garna paryo
+  resultsList.innerHTMl='';//clear previous results
+
+  results.forEach(function(result){
+    var link=document.createElement('a');
+    link.href="/home/forum/"+`${result.slug}`;//update with your actual profile URl later
+    link.textContent=result.username;
+    resultsList.appendChild(link);
+  });
+}
+
+function clearSearchResults(){
+  //clear the search results when the search query is empty
+  var container=document.querySelector(".search_recommendaion");
+  container.innerHTML='';
+}
+
+
+
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------------
+//                                      Function to get CSRF token from cookies
+//-------------------------------------------------------------------------------------------------------------------------------------------------------------------
+function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+//                                                for going to the userprofile when clicked----------
+//------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+let persons=document.querySelectorAll(".person1")
+
+persons.forEach( function(person1){
+    person1.addEventListener("click",function(){
+        personUserSlug=person1.getAttribute('user_slug')
+        const targetUrl = "/home/forum/"+`${personUserSlug}`;
+        // Use window.location.href to navigate to the specified URL
+        window.location.href = targetUrl;
+    })
+})
+
+</script>
+
+</body>
+</html>
+

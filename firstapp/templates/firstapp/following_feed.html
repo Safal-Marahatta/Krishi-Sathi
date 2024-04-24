@@ -1,0 +1,1739 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Farmers Forum</title>
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v2.1.6/css/unicons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Open Sans', sans-serif;
+            word-break: break-all;
+        }
+        ::-webkit-scrollbar {
+            width: 6px; /* Set the width of the scrollbar */
+        }
+        ::-webkit-scrollbar-thumb {
+            background-color: #888; /* Color of the scrollbar thumb */
+            border-radius: 6px; /* Rounded corners for the scrollbar thumb */
+        }
+        ::-webkit-scrollbar-track {
+            background-color: transparent; /* Make the track transparent */
+        }
+          body {
+            background: white;
+            position:relative;
+            width:100vw;
+            overflowX:hidden;
+            {% comment %} overflow:hidden; {% endcomment %}
+          }
+          .search_form{
+            position:sticky;
+            z-index:10;
+            top:0px;
+            left:0px;
+            width:100%;
+            height:60px;
+            background: rgb(95,158,160);
+          }
+          .nav {
+            width: 100%;
+            padding: 15px 200px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+          }
+          .nav,
+          .nav .nav-links {
+            display: flex;
+            align-items: center;
+          }
+          .nav {
+            justify-content: space-between;
+          }
+          a {
+            color: #fff;
+            text-decoration: none;
+          }
+          .nav .logo {
+            font-size: 22px;
+            font-weight: 500;
+          }
+          .nav .nav-links {
+            column-gap: 20px;
+            list-style: none;
+          }
+          .nav .nav-links a {
+            transition: all 0.2s linear;
+          }
+          .nav.openSearch .nav-links a {
+            opacity: 0;
+            pointer-events: none;
+          }
+          #searchIcon{
+            transition: color 0.3s ease-in-out;
+            transition: all 0.2s linear;
+          }
+          .following_feed_cont a{
+            {% comment %} color:#002D62; {% endcomment %}
+            transform:scale(1.1);
+            font-weight:bold;
+            border-bottom:2px solid yellow;
+
+          }
+
+          {% comment %} links lai hover garda ko including search{% endcomment %}
+          li{
+            transition: transform 0.3s ease-in-out, color 0.3s ease-in-out;
+          }
+
+          .nav-links li:hover:not(.following_feed_cont){     
+            transform: scale(1.1);
+          }
+          li a{
+            transition: color 0.3s ease-in-out;
+          }
+          li:hover:not(.following_feed_cont) a{
+            color:#7FFFD4;
+          }
+
+          #searchIcon:hover{
+            color:#7FFFD4;
+            font-weight:700;
+            transform: scale(1.2);
+          }
+          #ask_icon:hover{
+            cursor:pointer;
+          }
+          {% comment %} hover end {% endcomment %}
+
+          .nav .search-icon {
+            color: #fff;
+            font-size: 20px;
+            cursor: pointer;
+          }
+          .nav .search-box {
+            position: absolute;
+            right: 250px;
+            height: 45px;
+            max-width: 555px;
+            width: 100%;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.2s linear;
+          }
+          .nav.openSearch .search-box {
+            opacity: 1;
+            pointer-events: auto;
+          }
+          .search-box .search-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            left: 15px;
+            color: #4a98f7;
+            transform: translateY(-50%);
+          }
+          .search-box input {
+            height: 100%;
+            width: 100%;
+            border: none;
+            outline: none;
+            border-radius: 6px;
+            background-color: #fff;
+            padding: 0 15px 0 45px;
+          }
+          
+          .nav .navOpenBtn,
+          .nav .navCloseBtn {
+            display: none;
+          }
+          
+          /* responsive */
+          @media screen and (max-width: 1160px) {
+            .nav {
+              padding: 15px 100px;
+            }
+            .nav .search-box {
+              right: 150px;
+            }
+          }
+          @media screen and (max-width: 950px) {
+            .nav {
+              padding: 15px 50px;
+            }
+            .nav .search-box {
+              right: 100px;
+              max-width: 400px;
+            }
+          }
+          @media screen and (max-width: 768px) {
+            .nav .navOpenBtn,
+            .nav .navCloseBtn {
+              display: block;
+            }
+            .nav {
+              padding: 15px 20px;
+            }
+            .nav .nav-links {
+              position: fixed;
+              top: 0;
+              left: -100%;
+              height: 100%;
+              max-width: 280px;
+              width: 100%;
+              padding-top: 100px;
+              row-gap: 30px;
+              flex-direction: column;
+              background-color: #11101d;
+              box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+              transition: all 0.4s ease;
+              z-index: 100;
+            }
+            .nav.openNav .nav-links {
+              left: 0;
+            }
+            .nav .navOpenBtn {
+              color: #fff;
+              font-size: 20px;
+              cursor: pointer;
+            }
+            .nav .navCloseBtn {
+              position: absolute;
+              top: 20px;
+              right: 20px;
+              color: #fff;
+              font-size: 20px;
+              cursor: pointer;
+            }
+            .nav .search-box {
+              top: calc(100% + 10px);
+              max-width: calc(100% - 20px);
+              right: 50%;
+              transform: translateX(50%);
+              box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            }
+          }
+          .search_recommendaion{
+            position:absolute;
+            color:black;
+            display:flex;
+            flex-direction:column;
+            justify-content:flex-start;
+            align-items:flex-start;
+            padding:5px 0 0 0;
+            min-height:140px;
+            width:100%;
+            background-color:White;
+            top:50px;
+            border-radius:17px;
+            border:2px solid rgb(192,192,192);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+          }
+          .search_recommendaion a{
+            color:black;
+            padding:10px 0 10px 10px;
+            font-weight:bold;
+          }
+
+
+/*navbar ends................................................................................................................*/
+/*...........................................................................................................................*/
+
+        main{
+            display:block;
+            margin:10px 0 0 0;
+            position:relative;
+        }
+        .all_middle{
+            display:flex;
+            flex-direction:row;
+            justify-content:center;
+            width:100vw;
+
+        }
+        .middle_part{
+            height:auto;
+            {% comment %} bich ko part ko width ghatauna badauna xa vani yeta {% endcomment %}
+            box-sizing: border-box;
+            background-color:white;
+            display:flex;
+            flex-direction:column;
+            justify-content:flex-start;
+            border-radius:8px;
+            width:700px;
+            color:black;
+            
+
+        } 
+
+        .add_post{
+            display:flex;
+            justify-content:center;
+            width:100%;
+            margin:0 0 0 0;
+            background-color:white;
+            padding:5px 0 5px 0;
+            align-items:center;
+            border:2px solid rgb(192,192,192);
+
+        }
+        .new_postp{
+            font-size:20px;
+            padding:10px;
+            background-color:rgb(245,245,245);
+            border:1px solid rgb(192,192,192);
+            border-radius:9px;
+            color:rgba(0, 0, 0, 0.5);
+            width:80%;
+            margin-left:7px;
+
+        }
+        .profile_pic{
+            width:40px;
+            aspect-ratio:1/1;
+            border-radius:50%;
+            
+        }
+        .new_postp:hover{
+            cursor:pointer;
+        }
+
+
+{% comment %} this is the posts section {% endcomment %}
+
+        .all_posts{
+            display:flex;
+            flex-direction:column;
+            width:100%;
+            height:auto;
+            background-color:white;
+            margin-bottom:10px;
+            
+        }
+
+        .post{
+            display:flex;
+            flex-direction:column;
+            background-color:white;
+            border:2px solid rgb(192,192,192);
+            border-radius:8px;
+            margin-top:10px;
+        }
+
+        .section1{
+            display:flex;
+            flex-direction:row;
+            justify-content:flex-start;
+            align-items:center;
+            margin-bottom:10px;
+            margin-top:10px;
+        }
+        .detail{
+            display:flex;
+            flex-direction:column;
+            justify-content:flex-start;
+            padding-left:5px;
+
+        }
+
+        span{
+            color:blue;
+        }
+
+        .work p{
+            font-size:13px;
+        }
+
+        .section2{
+            display:flex;
+            flex-direction:column;
+            justify-content:flex-start;
+            
+
+        }
+        .post_text{
+            {% comment %} height:40px;
+            overflow:hidden; {% endcomment %}
+        
+            transition: background-color 0.3s;
+        }
+
+        .post_text p{
+            font-weight:600;
+            padding-left:9px;
+        }
+
+        .namefollow p{
+            font-weight:600;
+        }
+        .post_image_container{
+            display: flex;
+            max-width: 100%; /* Adjust the width as needed */
+            height:auto;
+            justify-content:center;
+            align-items:center;
+            flex-wrap:wrap;
+            background-color:white;
+        }
+
+        .post_image{
+            flex-grow: 1;
+            width:49%;
+            flex-basis:49%;
+            height:auto;
+            object-fit: cover;
+            margin: 0.5%; /* Add some margin between images */
+            border-radius:8px;
+        }
+        .section3{
+            display:flex;
+            flex-direction:row;
+            justify-content:flex-start;
+            align-items:center;
+            border-top:1px solid rgb(192,192,192);
+            
+
+        }
+        .comment_icon{
+            margin:8px 12px;
+            transition: transform 0.3s ease;
+        }
+        .Like_icon{
+            margin:8px 5px 8px 12px ;
+            transition: transform 0.3s ease;
+        }
+        .Like_icon:hover{
+            transform:scale(1.1);
+        }
+        .comment_icon:hover{
+            transform:scale(1.1);
+        }
+        .thumbs-up-icon{
+            font-size:20px;
+            color:#0039a6;
+            cursor:pointer;
+        }
+        .comment-icon{
+            font-size:20px;
+            color:#0039a6;
+            cursor:pointer;
+            margin-right:5px;
+        }
+
+
+{% comment %} write code here {% endcomment %}
+
+
+
+
+
+
+
+
+
+
+{% comment %} for the popup of add post {% endcomment %}
+
+.overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 1000;
+}
+.popup{
+    display: none;
+    {% comment %} position: relative; {% endcomment %}
+    position:fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border:2px solid rgb(128,128,128);
+    border-radius:10px;
+    z-index: 1001;
+    background-color:white;
+    width:650px;
+    height:500px;
+}
+
+
+        .popup2{
+            height:100%;
+            width:100%;
+            display:flex;
+            flex-direction:column;
+            justify-content:flex-start;
+            align-items:center;
+
+        }
+           
+        .close{
+            font-size:40px;
+            color:rgb(54, 69, 79);
+            border:none;
+            background:none;
+            align-self:flex-start;
+            padding-left:10px;
+            font-weight:300;
+
+        }
+        .close:hover{
+            cursor:pointer;
+        }
+        .popup_section3{
+            width:100%;
+            display:flex;
+            flex-direction:column;
+            justify-content:space-between;
+        }
+
+        #id_post_text {
+            width: 100%;
+            height:390px;
+            box-sizing: border-box;
+            padding: 10px;
+            border-top:2px solid rgb(128,128,128);
+            border-bottom:2px solid rgb(128,128,128);
+            border-radius: 5px;
+            resize: none;
+            font_size: 25px;
+
+        }
+        .popup_section4{
+            display:flex;
+            align-items:center;
+            justify-content:space-around;
+            background:white;
+            padding-top:8px;
+        }
+        #submitPost{
+            height:35px;
+            width:65px;
+            border-radius:15px;
+            background-color:#0039a6;
+            color:white;
+        }
+        #id_post_image{
+            color:black;
+        } 
+        @media (max-width:650px){
+            .popup{
+                height:80vh;
+                width:100vw;
+            }
+        }       
+
+     
+{% comment %} popup ends {% endcomment %}
+
+
+
+
+
+
+{% comment %} this is for the side navigation {% endcomment %}
+
+.side_navigation{
+    font-size:19px;
+    background-color:rgb(245,245,245);
+    position:sticky;
+    width:300px;
+    height:85vh;
+    z-index:5;
+    top:55px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+}
+.thulo_view{
+    display:flex;
+    flex-direction:column;
+    justify-content:space-around;
+    align-items:flex-start;
+    flex-grow:1;
+}
+.side_nav_home{
+    cursor: pointer;
+    transition: color 0.3s ease-in-out, transform 0.3s ease-in-out;
+
+}
+.side_nav_home:hover{
+    color: #e74c3c;
+    transform: scale(1.1);
+}
+.side_nav_home a:hover{
+    color: #e74c3c;
+}
+.sano_view{
+    display:none;
+}
+.sano_view a{
+    color:black;
+}
+.side_nav_home a{
+    color:black;
+}
+{% comment %}  side navigation ends {% endcomment %}
+
+
+
+
+{% comment %} this is for the right part of side navigation {% endcomment %}
+.right_suggestions{
+    background: rgb(245,245,245);
+    position:sticky;
+    top:20px;
+    width:300px; 
+    height:85vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+}
+
+{% comment %}  right part ends {% endcomment %}
+
+
+
+
+{% comment %} media queries part for middle part/side nav part {% endcomment %}
+
+@media (max-width: 1302px) {
+    .side_navigation{
+        width:190px;
+    }
+}
+@media (max-width: 1231px) {
+    .right_suggestions{
+        display:none;
+    }
+}
+@media (max-width: 900px) {
+    .side_navigation{
+        max-width:70px;
+    }
+    .thulo_view{
+        display:none;
+    }
+    .sano_view{
+        display:flex;
+        color:black;
+        flex-direction:column;
+        justify-content:space-around;
+        flex-grow:1;
+    }
+    .sano_view i{
+        transition: color 0.3s ease-in-out, transform 0.3s ease-in-out;
+        cursor: pointer;
+    }
+    .sano_view i:hover{
+        color: #e74c3c;
+        transform: scale(1.2); 
+    }
+    .middle_part{
+        {% comment %} width:auto; {% endcomment %}
+        color:black;
+    }
+}
+@media (max-width: 790px) {
+    .middle_part{
+        width:auto;
+        flex-grow:1;
+    }
+}
+
+{% comment %} end of mediaquery for the middle part {% endcomment %}
+
+
+
+{% comment %} -------yo post lai click garesi aaune view ho ----------{% endcomment %}
+
+#overlay2{
+    display:none;
+    position:fixed;
+    top:0;
+    left:0;
+    width:100vw;
+    height:100vh;
+    background:rgba(0,0,0,0.8);
+    z-index:2000; 
+}
+#thulo_post{
+    display:none;
+    position:fixed;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    {% comment %} width:60%;
+    height:90%;
+    max-width:650px;
+    max-height:600px; {% endcomment %}
+    width:650px;
+    height:600px;
+    background-color:white;
+    box-shadow:0 0 10px rgba(255,255,255,0.6);
+    overflow-y:auto;
+    z-index:5000;/*place the popup above the overlay*/
+    border-radius:10px;
+}
+@media(max-width: 650px){
+    #thulo_post{
+        width:100%;
+        height:100%;
+    }
+}
+.post_pop_1{
+    position: sticky;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding: 0 10px;
+    top: 0;
+    left: 0;
+    width: 100%;
+    min-height:50px;
+    background-color:white;
+    border-bottom:1px solid grey;
+    border-radius:7px;
+    color: black;
+    text-align: center;
+    z-index: 3; /* Place the navbar above the overlay and popup */
+}
+.post_pop_3{
+    position:sticky;
+    bottom:0;
+    left:0;
+    background:white;
+    width:100%;
+    height:90px;
+    
+}
+.send{
+   position:absolute;
+   right:5px;
+   bottom:15px;
+   color:rgba(0,0,255,0.9);
+   font-size:25px;
+   z-index: 50;
+   cursor:pointer;
+   transition: transform 0.3s ease-in-out;
+}
+.send:hover{
+    transform: scale(1.1);
+}
+.comment-input{
+    box-sizing:border-box;
+    padding-top:30px;
+    padding-left:7px;
+    padding-right:10px;
+    width:100%;
+    height:100%;
+    resize: none; /* Disable user resizing */
+    border:none;
+    border-radius:7px;
+    background-color:rgb(250, 249, 246);
+    border-top:1px solid grey;
+}
+.post_pop_2{
+    width:100%;
+    min-height:calc(100% - 140px);
+    padding-left:10px;
+}
+.poster_info{
+    display:flex;
+    flex-direction:row;
+    justify-content:flex-start;
+    align-items:center;
+    margin-bottom:10px;
+    background-color: rgb(240,248,255);
+
+}
+.inside_profile_pic_container{
+    padding-right:8px;
+    display:flex;
+    justify-content:center;
+    align-item:center;
+}
+.inside_profile_pic{
+    width:40px;
+    aspect-ratio:1/1;
+    border-radius:50%;
+    
+}
+.poster_detail{
+    display:flex;
+    flex-direction:column;
+}
+.poster_username{
+    width:auto;
+    font-weight:bold;
+}
+.occupation{
+    font-size:10px;
+}
+{% comment %} .name_and_follow{
+    display:flex;
+    flex-direction:row;
+} {% endcomment %}
+.close2{
+    cursor:pointer;
+    font-size:30px;
+}
+
+
+
+.thulo_post_image{
+    width:100%;
+    display:flex;
+    flex-direction:column;
+    border-bottom:1px solid rgb(211, 211, 211);
+    background-color:grey;
+}
+.thulo_post_like{
+    border-bottom:1px solid rgb(211, 211, 211);
+    display:flex;
+    align-item:center;
+    justify-content:center;
+}
+.vitri_image_container{
+    width:100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    {% comment %} margin:10px 0; {% endcomment %}
+}
+.vitri_image{
+    max-width: 100%; /* Limit the width of the image to prevent overflow */
+    object-fit: contain; /* Preserve the aspect ratio while fitting the image within the container */
+}
+.follow_him{
+    cursor:pointer;
+}
+.post_comments_container p,.external_comment_load div{
+    background-color:rgb(226, 223, 210);
+    padding:8px 5px;
+    border-radius:5px;
+    margin:3px;
+}
+.post_comments_container p{
+    background-color:rgb(255, 222, 173);
+}
+.external_comment_load div p span{
+    font-weight:bold;
+}
+.comment_heading{
+    display:flex;
+    alig-self:center;
+    justify-content:flex-start;
+    margin-top:10px;
+}
+
+
+
+
+
+
+{% comment %} -------------------end of post laai click garesi aune view------------------ {% endcomment %}
+
+        
+
+
+    </style>
+</head>
+<body>
+    <form method="GET" action="{% url 'search_people' %}" class="search_form">
+        <nav class="nav">
+            <i class="uil uil-bars navOpenBtn"></i>
+            <a href="#" class="logo">KrishiSathi</a>
+    
+            <ul class="nav-links">
+            <i class="uil uil-times navCloseBtn"></i>
+            <li><a href="{%url "my_profile" %}"><i class="fas fa-user-circle"></i> Profile</a></li>
+            <li id="ask_icon"><a href="{%url "forumpage"%}"><i class="fas fa-newspaper"></i> Explore</a></li>
+            <li class="following_feed_cont"><a href="#"><i class="fas fa-user-friends following_feed"></i> Following Feeds</a></li>
+            <li><a href="{%url "fans"%}"><i class="fas fa-users"></i> Fans</a></li>
+            <li><a href="/logout/"><i class="fas fa-sign-out-alt"></i> Log out</a></li>
+            </ul>
+            <i class="uil uil-search search-icon" id="searchIcon"></i>
+            <div class="search-box">
+                <div class="search_recommendaion">
+
+                </div>
+                <i class="uil uil-search search-icon"></i>
+                <input type="text" placeholder="Search for people..." id="searchInput"/>
+            </div>
+        </nav>
+    </form>
+
+    <main>
+        <div class="all_middle">
+            <section class="side_navigation">
+                <div class="thulo_view">
+                    <h1>Krishi Talk</h1>
+                    <div class="side_nav_home">
+                        <a href="{%url "homepage"%}"><i class="fas fa-home"></i>HOME</a>   
+                    </div>
+                    <div class="side_nav_home">
+                        <a href="{%url "predict"%}"><i class="fas fa-medkit"></i>Predict Diesease</a>   
+                    </div>
+                    <div class="side_nav_home">
+                        <a href="{%url "cropInfo"%}"><i class="fas fa-seedling"></i>Recommendation</a>   
+                    </div>
+                    <div class="side_nav_home">
+                        <a href="{%url "cropInfo"%}"><i class="fas fa-info-circle"></i>Information</a>   
+                    </div>
+                    <div class="side_nav_home">
+                        <a a href="/logout/"><i class="fas fa-sign-out-alt"></i>Log Out</a>   
+                    </div>
+                </div>
+                <div class="sano_view">
+                    <a href="{%url "homepage"%}"><i class="fas fa-home"></i></a>
+                    <a href="{%url "cropInfo"%}"><i class="fas fa-medkit"></i></a>
+                    <a href="{%url "cropInfo"%}"><i class="fas fa-seedling"></i></a>
+                    <a href="{%url "cropInfo"%}"><i class="fas fa-info-circle"></i></a>
+                    <a href="/logout/"><i class="fas fa-sign-out-alt"></i></a>
+                </div>
+
+            </section>
+            <section class="middle_part">
+
+                <div class="add_post">
+                    {% comment %} <img src="{%static "firstapp/images/farmer1.jpg"%}" alt="profile" class="profile_pic"> {% endcomment %}
+                    <i class="fas fa-user-circle fa-2x text-danger"></i>
+
+                    <p class="new_postp">ask or share...</p>
+                </div>
+
+
+
+                {% comment %} this is the posts section {% endcomment %}
+
+                <div class="all_posts">
+                    {% comment %} first post {% endcomment %}
+                    <template class="template"> 
+                        <div class="post">
+
+                            <div class="section1">
+                                {% comment %} paxi yesko thauma div rakhera background ma halera garni {% endcomment %}
+                                <img src="{%static "firstapp/images/farmer1.jpg"%}" alt="profile" class="profile_pic">
+                                <div class="detail">
+                                    <div class="namefollow">
+                                        <p>safal marahatta</p>
+                                    </div>
+                                    <div class="work">
+                                        <p>Minister of kathmandu,government of nepal<span> updated 5d</span></p>
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+
+                            <div class="section2">
+                                <div class="post_text">
+                                    <p>hello my name is safal marahatta. Actually i had planted a tomato
+                                        plant and my question is that what is its fruit yello ? the another 
+                                        name of the fruit dragon fruit is china. it is named so because originally 
+                                        it was originated in china. The European countries like the italy,turkey are 
+                                        famous for grapes production. In the context of nepal citrus fruits are very 
+                                        famous and well suited in the hilly and mangoes are well suited in the terai.
+                                        so we should cultivate the fruit according to the seasonality of the place.
+                                        hence nepal being agricultural country can cultivate more fruits and then 
+                                        sell them to another country so that they are the one and only producer 
+                                        of the fruits. the another name of japan is Nippon.  
+                                    </p>
+                                </div>
+                                <div class="post_image_container">
+                                    <img src="" alt="empty photo" class="post_image">
+                                </div>
+
+                            </div>
+
+                            <div class="section3">
+                                <div class="comment_icon">
+                                    <i class="far fa-comment comment-icon"></i><span class="comment_count"> </span>
+                                </div>
+                                <div class="Like_icon">
+                                    <i class="far fa-thumbs-up thumbs-up-icon" id="like_me"></i>
+                                </div>
+                                <span class="like_count"> </span>
+                            </div>
+
+
+                        </div>
+                    </template>
+                </div>
+            </section>
+
+
+            <section class="right_suggestions">
+                <p>Advertisement</p>
+            </section>
+
+        </div>
+    </main>
+<!--..................................................................................................................................... -->
+                    <!--this is the section for the popup for the add posts-->
+
+    <div class="overlay" id="overlay"></div>  <!-- Background Overlay -->
+
+
+    <div class="popup" id="postPopup">
+        <div class="popup2">
+            <button class="close">&times;</button>
+            <form action="/home/forum" method="POST" enctype="multipart/form-data" class='popup_section3'>
+                {% csrf_token %}
+                {{form.post_text}}<!--id=id_post_text-->
+                <div class="popup_section4">
+                    {{form.post_image}}<!--id=id_post_image-->
+                    <button id="submitPost">Submit</button>
+                </div>
+            </form>
+        </div> 
+    </div>
+
+<!--............................................................................................................................................................-->  
+                    <!--...............................................this is for the post lai click garesi aaune view.................................-->
+
+
+
+    <div id="overlay2" class="overlay_2"></div>                
+    <div class="thulo_popup" id="thulo_post" post-id="">
+
+
+            <div class="post_pop_1">
+                <span class="close2" id="closePopup2">&times;</span>
+                <span class='follow_him'>Follow</span>
+            </div>
+
+
+            <div class="post_pop_2">
+
+
+                <div class="poster_info">
+                    {% comment %} paxi yesko thauma div rakhera background ma halera garni {% endcomment %}
+                    <div class="inside_profile_pic_container">
+                        <img src="{%static "firstapp/images/farmer1.jpg"%}" alt="profile" class="inside_profile_pic">
+                    </div>
+                    <div class="poster_detail">
+                        <div class="name_and_follow">
+                            <p class="poster_username">safal marahatta</p> 
+                        </div>
+                        <div class="occupation">
+                            <p>Minister of kathmandu,government of nepal<span> updated 5d</span></p>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="thulo_post_text">
+                    <p>yesma sabai text hunxa post ko</p>
+                </div>
+
+
+                <div class="thulo_post_image">
+                    <div class="vitri_image_container">
+                        <img src="{%static "firstapp/images/farmer1.jpg"%}" alt="profile" class="vitri_image">
+                    </div>
+                    <div class="vitri_image_container">
+                        <img src="" class="vitri_image">
+                    </div>
+                    <div class="vitri_image_container">
+                        <img src=""  class="vitri_image">
+                    </div>
+                    <div class="vitri_image_container">
+                        <img src="" class="vitri_image">
+                    </div>
+                </div>
+
+
+                <div class="thulo_post_like">
+                    <i class="fas fa-thumbs-up thumbs-up-icon" id="thulo_like"></i>
+                    <span class="vitri_like_count"> </span>
+                </div>
+
+                <div class="comment_heading">
+                    <p>COMMENTS</P>
+                </div>
+
+                <div class="post_comments_container">
+
+                </div>
+
+                <div class="external_comment_load">
+                    
+                </div>
+
+
+            </div>
+
+
+
+            <div class="post_pop_3">
+                <textarea id="commentInput1" class="comment-input" name="commentInput1" placeholder="Type your comment here..."></textarea>
+                <i class="fas fa-paper-plane send"></i> 
+            </div>
+    </div>
+
+
+
+  
+
+
+<!--...................................................................................................................................-->
+
+    <script>
+ //--------------------------------------------------------------------------------------------------------------------------------------------------------       
+                                                //  yo chai form submission ko lagi section ho       
+//-------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+document.getElementById('searchInput').addEventListener('keydown', function (event) {
+    if (event.key === 'Enter') {
+        event.preventDefault(); // Prevent the default form submission behavior
+
+        // Get the search input value
+        var searchQuery = document.getElementById('searchInput').value;
+
+        // Construct the URL with the query parameter
+        var searchURL = "{%url "search_people" %}"+'?query=' + encodeURIComponent(searchQuery);
+
+        // Redirect to the search URL
+        window.location.href = searchURL;
+    }
+});
+
+
+
+
+
+
+//----------------------------------------------------------------------------------------------------------------------------------------------------------  
+                                        //navbar section       
+//---------------------------------------------------------------------------------------------------------------------------------------------------------       
+
+const nav = document.querySelector(".nav"),
+  searchIcon = document.querySelector("#searchIcon"),
+  navOpenBtn = document.querySelector(".navOpenBtn"),
+  navCloseBtn = document.querySelector(".navCloseBtn");
+
+searchIcon.addEventListener("click", () => {
+  nav.classList.toggle("openSearch");
+  nav.classList.remove("openNav");
+  if (nav.classList.contains("openSearch")) {
+    return searchIcon.classList.replace("uil-search", "uil-times");
+  }
+  searchIcon.classList.replace("uil-times", "uil-search");
+});
+
+navOpenBtn.addEventListener("click", () => {
+  nav.classList.add("openNav");
+  nav.classList.remove("openSearch");
+  searchIcon.classList.replace("uil-times", "uil-search");
+});
+navCloseBtn.addEventListener("click", () => {
+  nav.classList.remove("openNav");
+});
+
+//-------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+// this is the section for getting the dynamic search results
+//--------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+
+searchInput=document.querySelector("#searchInput")
+searchInput.addEventListener("input",async function(event){
+  //get the search input value
+  console.log(searchInput.value);
+  searchQuery=searchInput.value
+  if(searchQuery.trim() !==''){//yedi value empty xaina vani
+    try{
+      //make an asynchronous fetch request to the search ApI endpoint
+      const response=await fetch(`/api/search_people_suggestion/?query=${encodeURIComponent(searchQuery)}`);
+
+      if(!response.ok){
+        throw new Error(`HTTP error ! status: ${response.status}`);
+      }
+      const data=await response.json();
+      //process the search results and dynamically update the UI
+      updateSearchResultsUI(data);
+    }
+    catch(error){
+      console.error("error:",error);
+    }
+
+  }
+  else{
+    //clear the search results if the search query is empty
+    clearSearchResults();
+  }
+});
+
+function updateSearchResultsUI(results){
+  clearSearchResults();
+  var resultsList=document.querySelector('.search_recommendaion')//yo vitra dynamically add garna paryo
+  resultsList.innerHTMl='';//clear previous results
+
+  results.forEach(function(result){
+    var link=document.createElement('a');
+    link.href="/home/forum/"+`${result.slug}`;//update with your actual profile URl later
+    link.textContent=result.username;
+    resultsList.appendChild(link);
+  });
+}
+
+function clearSearchResults(){
+  //clear the search results when the search query is empty
+  var container=document.querySelector(".search_recommendaion");
+  container.innerHTML='';
+}
+
+
+//----------------------------------------------------------------------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ //read more thichda read hune wala logic
+        function read() {  
+            var post_text=document.querySelectorAll(".post_text");
+            var x=0;
+            var y=0;
+            // Check the height and create the html element if it's greater than 40px
+            post_text.forEach(function(element){
+                if (element.offsetHeight > 70) {
+                    element.style.height="70px";
+                    element.style.overflow="hidden";
+                    var newElement=document.createElement('p');
+                    newElement.textContent='[Read More]';
+                    newElement.style.color='blue';
+                    newElement.style.fontWeight='800';
+                    //readmore lai k kati stylling chainxa yeha garne
+                    element.insertAdjacentElement('afterend',newElement); 
+
+                    function handleClick(){
+                        if(x%2===0){
+                            element.style.height = 'auto';
+                            element.style.overflow = 'visible';
+                            newElement.textContent='Read less';
+
+                        }
+                        else{
+                            element.style.height = '70px';
+                            element.style.overflow = 'hidden';
+                            newElement.textContent='[Read more]';
+                        }
+                        x=x+1;
+                    }
+            
+                    newElement.addEventListener('click',handleClick);
+                }
+            });
+          }
+
+        document.addEventListener('DOMContentLoaded', read);//**
+          
+
+//-------------------------------------------------------------------------------------------------------------------------------------------------------//
+//yo vanda muniko section chai yo scroll garera bottom lai touch garesi automatic naya post aauni banauna lai ho. i.e this section is for infinite scroll feel
+
+
+
+//---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+                                                //this is for follow
+ //---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ 
+ let followstatus
+
+ function toogle(follow){//helper fn of follow button click function
+    let textContent=follow.innerText;
+    followstatus=textContent//for use in ajax req
+    if(textContent===".Follow"){
+        follow.innerText=".Unfollow";
+    }
+    else if(textContent===".Unfollow"){
+        follow.innerText=".Follow";
+    }
+ }
+
+
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------------
+//                                      Function to get CSRF token from cookies
+//-------------------------------------------------------------------------------------------------------------------------------------------------------------------
+function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+
+
+//----------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+            //yo vanda muniko section chai yo scroll garera bottom lai touch garesi automatic naya post aauni banauna lai ho. i.e this section is for infinite scroll feel
+//----------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+
+let page = 1;
+let isLoading = false;
+async function postData() {
+    if (isLoading) {
+        return;
+    }
+
+    isLoading = true;
+
+    const url = `http://127.0.0.1:8000/api/following_posts/?page=${page}`;
+
+    try {
+        const response = await fetch(url, {
+            method: 'GET'
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const fData = await response.json();
+        console.log(fData)//object of array
+        const responseData = fData.posts;
+        const follow_data=fData.follow_status
+        const like_data=fData.like_status
+        const like_count=fData.like_count
+        const comment_count=fData.comment_count
+        const postList = document.querySelector(".all_posts");
+        const postTemplate = document.querySelector(".template");
+        i=0;
+        responseData.forEach(item => {
+            const newPost = postTemplate.content.cloneNode(true); 
+            newPost.querySelector('.namefollow').innerHTML = `<p>${item.user.username}</p>`;
+            if(like_data[i]==="has_liked"){  
+                newPost.querySelector('.Like_icon').innerHTML = `<i class="fas fa-thumbs-up thumbs-up-icon" id="like_me"></i>`
+            }
+            if(like_data[i]==="has_not"){  
+                newPost.querySelector('.Like_icon').innerHTML = `<i class="far fa-thumbs-up thumbs-up-icon" id="like_me"></i>`
+            }
+
+
+            
+            //new created post ma kk data halna xa yeta halne
+            newPost.querySelector('.post_text').innerHTML = `<p>${item.post_text}</p>`;
+            newPost.querySelector('.work').innerHTML = `<p>${item.user.occupation}<span> ${item.uploaded_date.substring(0, 10)}(${item.uploaded_date.substring(11, 16)})</span></p>`;
+            newPost.querySelector('.post_image').src=`${item.post_image}`;
+            newPost.querySelector('.profile_pic').src=`${item.user.profile_picture}`;
+            newPost.querySelector('.post').setAttribute("post-id", `${item.id}`);
+            newPost.querySelector('.comment_count').innerText=comment_count[i];
+            newPost.querySelector('.like_count').innerText=like_count[i]; 
+            postList.appendChild(newPost);
+            //postElement.setAttribute("data-username", `${item.id}`);// Adding a data attribute named 'username'
+            i=i+1;
+            read();
+        });
+        //if wala is for follow click
+        if (responseData.length>0){
+            console.log("pailo follow call")
+           handleLikeButtonClick(responseData.length);
+           handlePostClick(responseData.length);//post click garda detail view aaune
+       }
+       //end followclick
+
+        page++; // Move this inside the try block to ensure it's only incremented after successful data fetch
+    } catch (error) {
+        console.error('Error:', error);
+    } finally {
+        isLoading = false;
+    }
+}
+
+let debounceTimeout;
+
+window.addEventListener('scroll', () => {
+    if (debounceTimeout) {
+        clearTimeout(debounceTimeout);
+    }
+
+    debounceTimeout = setTimeout(() => {
+        if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 100) {
+            postData();
+            console.log('scrolled');
+        }
+    }, 200); // Adjust the delay based on your needs
+});
+
+// Initial load
+postData();
+
+
+//----------------------------------------------------------------------------------------------------------------------------------------------------------------------------//        
+                             //this is the section for the  popup when user clicks  What do you want to ask or share
+//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------//  
+    const open_popup=document.querySelector(".new_postp");
+    const popup=document.querySelector(".popup");
+    const closePopupButton = document.querySelector('.close');
+
+    open_popup.addEventListener('click',function(){
+        popup.style.display='block';
+        document.getElementById('overlay').style.display = 'block';
+        document.body.style.overflow="hidden";
+    });
+    closePopupButton.addEventListener('click',function(){
+        popup.style.display='none';
+        document.getElementById('overlay').style.display = 'none';
+        document.body.style.overflow="auto";
+    });
+    document.addEventListener('click', function (event) {
+    
+        if (!popup.contains(event.target) && !open_popup.contains(event.target) && !ask_icon.contains(event.target)) {
+            // Click occurred outside the sidebar and its container, close the sidebar
+            popup.style.display='none';
+            document.getElementById('overlay').style.display = 'none';
+            document.body.style.overflow="auto";
+        }
+    });
+
+    
+//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+        // this section is for like button. When a user presses like button then it should be shown liked and api should be sent to the server
+//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+function handleLikeButtonClick(l) {
+    let like_icon = document.querySelectorAll(".Like_icon");
+    let like_icon_latest = Array.from(like_icon).slice(-l); // Convert NodeList to an array using Array.from or the spread operator
+    like_icon_latest.forEach(function(like) {
+        like.addEventListener('click', async function() {
+            event.stopPropagation();
+            console.log('like clicked!');
+            let postElement = event.target.closest('.post');
+            post_id = postElement.getAttribute("post-id");
+            try {
+                // Send the AJAX request using fetch and async/await
+                let csrfToken = getCookie('csrftoken');
+                let response = await fetch('/api/bahiri_like/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': csrfToken,
+                    },
+                    body: JSON.stringify({
+                        'post': post_id,
+                    }),
+                });
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                // Handle successful response
+                l_cou= await response.json();
+                ultaide(like,l_cou,postElement); // Use dom manipulation
+            } catch (error) {
+                // Handle errors during the fetch
+                console.error('Error during fetch:', error.message);
+            }
+        });
+    });
+}
+function ultaide(like,l_cou,postElement){
+    console.log("babuwa me ulatgaya");
+    like_icon_only=like.querySelector("#like_me");
+    postElement.querySelector(".like_count").innerText=l_cou.like;
+    
+    if (like_icon_only.classList.contains("far")) {
+        console.log("like hanna paryo");
+        like_icon_only.classList.remove("far");
+        like_icon_only.classList.add("fas");
+    } else{
+        console.log("dislike hanna paryo");
+        like_icon_only.classList.remove("fas");
+        like_icon_only.classList.add("far");
+    }
+
+}
+        
+//-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+//    this page is for full page post view when the user clicks the post
+//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+function handlePostClick(l) {//main fn
+    let posts_all = document.querySelectorAll(".post");
+    
+    // Convert NodeList to an array using Array.from or the spread operator
+    let posts = Array.from(posts_all).slice(-l);
+    // Or: let follows = [...followss].slice(-l);
+
+    posts.forEach(function(post) {
+        post.addEventListener('click',async function() {
+            //event.stopPropagation();
+            console.log('post clicked!!');
+            //aba handle garne click vayesi k garne vanera
+            const thulo_banne_post=event.currentTarget;// Get the post element that the event listener is attached to
+            //const clickedElement = event.target; // Get the actual element that was clicked
+            console.log('Current Post:', thulo_banne_post)
+            const post_id=thulo_banne_post.getAttribute('post-id');
+            console.log(`post of:${post_id}`)
+            
+            //now sending the fetch request
+            try{
+                //make an asynchronous fetch request to the search ApI endpoint
+                const thulo_post_response=await fetch(`/api/thulo_post_data/?query=${encodeURIComponent(post_id)}`);
+          
+                if(!thulo_post_response.ok){
+                  throw new Error(`HTTP error ! status: ${response.status}`);
+                }
+                const thulo_post_data=await thulo_post_response.json();
+                console.log(thulo_post_data);
+                //process the search results and dynamically update the UI
+                update_single_post(thulo_post_data,post_id);
+              }
+              catch(error){
+                console.error("error:",error);
+              }
+
+
+            
+        });
+    });
+}
+
+function update_single_post(thulo_post_data,post_id){
+    thulo_popup=document.querySelector("#thulo_post");
+    overlay2=document.querySelector('#overlay2');
+    thulo_popup.setAttribute("post-id",`${thulo_post_data.data.id}`);
+    thulo_popup.querySelector('.poster_username').innerText=thulo_post_data.data.user.username;
+    thulo_popup.querySelector('.occupation').innerText=thulo_post_data.data.user.occupation;
+    thulo_popup.querySelector('.thulo_post_text').innerText=thulo_post_data.data.post_text;
+    thulo_popup.querySelector('.vitri_image').src=`${thulo_post_data.data.post_image}`;
+    thulo_popup.querySelector('.inside_profile_pic').src=`${thulo_post_data.data.user.profile_picture}`;
+    follow_ko=thulo_popup.querySelector('.follow_him')
+    follow_ko.innerText=thulo_post_data.follow_status;
+                //
+    if(thulo_post_data.like_status==="not_liked"){
+        thulo_popup.querySelector('.thulo_post_like').innerHTML = `<i class="far fa-thumbs-up thumbs-up-icon" id="thulo_like"></i><span class="vitri_like_count">${thulo_post_data.like_count}</span>`
+    }
+    else if(thulo_post_data.like_status==="liked"){
+        thulo_popup.querySelector('.thulo_post_like').innerHTML = `<i class="fas fa-thumbs-up thumbs-up-icon" id="thulo_like"></i><span class="vitri_like_count">${thulo_post_data.like_count}</span>`
+    }
+
+
+    //comments haru halya
+    for (let comment of thulo_post_data.comments){
+        const commentElement=document.createElement("div");
+        //commentElement.textContent=comment.comment_text;
+        commentElement.innerHTML=`<p><span>${comment.user.username}</span>  ${comment.comment_text}</p>`
+        //get the comment section
+        const external_comment_load=document.querySelector(".external_comment_load")
+        external_comment_load.appendChild(commentElement);
+    }
+
+    thulo_popup.style.display="block";
+    overlay2.style.display="block";
+    document.body.style.overflow="hidden";
+
+
+}
+//------------------------------full page post view vitra ko follow ra unfollow ko lagi----------------------------//
+
+document.querySelector('.follow_him').addEventListener("click",async function(event){
+    //aba paile request pathayera toggle garna paryo
+    thulo_popup=document.querySelector('.thulo_popup');
+    follow_ko=thulo_popup.querySelector('.follow_him')
+    let post_id=thulo_popup.getAttribute("post-id");
+    try {
+        // Send AJAX request using fetch and async/await
+        let csrfToken = getCookie('csrftoken');
+        let response = await fetch('/api/handle_vitri_follow/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrfToken,
+            },
+            body: JSON.stringify({
+                'post': post_id,
+                // Add other data you want to send to the server
+            }),
+        });
+
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        toogle(follow_ko);
+        // Handle successful response
+        console.log('Follow button clicked! Server response:', await response.json());
+    } catch (error) {
+        // Handle errors during the fetch
+        console.error('Error during fetch:', error.message);
+    }
+})
+//
+
+//----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+    //yo chai tyo post click garda thulo post aauxa ni teslai close garna ko lagi ho
+//----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//    
+post_close=document.querySelector(".close2");
+post_close.addEventListener("click", function(){
+    thulo_popup=document.querySelector("#thulo_post");
+    overlay2=document.querySelector('#overlay2');
+    const bodyElement = document.querySelector('body');
+
+    thulo_popup.style.display="none";
+    overlay2.style.display="none";
+    document.body.style.overflow='auto';
+
+    //previous comment lai clear gardina
+    const external_comment_load=document.querySelector(".external_comment_load");
+    external_comment_load.innerText='';
+    //aauta ma lekheko comment arkoma nadekhiyos vanera
+    const post_comments_container=document.querySelector(".post_comments_container");
+    post_comments_container.innerText='';
+
+});
+
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+                    //this is for the comment section 
+//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+
+
+
+document.querySelector('.send').addEventListener("click",async function(){
+    console.log(thulo_popup);
+    thulo_popup=document.querySelector('.thulo_popup');
+    let post_id=thulo_popup.getAttribute("post-id");
+    let commentInput=document.getElementById("commentInput1").value;
+    if(commentInput.trim()===""){
+        return;
+    }
+    try{
+        //send the comment data to the server
+        let csrfToken = getCookie('csrftoken');
+        let response=await fetch("/api/postComments/",{
+            method:"POST",
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrfToken,
+            },
+            body: JSON.stringify({
+                'comment': commentInput,
+                'post': post_id,
+
+            }),            
+        });
+        if(!response.ok){
+            throw new Error("Failed to send comment");
+        }
+        //clear the input area 
+        document.getElementById("commentInput1").value="";
+
+        //display the newly added comment
+        displayComment(commentInput);
+        new_comment_count=await response.json();
+        console.log("naya_comment_count_obj")
+        console.log(new_comment_count.total_comments);
+        change_bahiri_com_count(post_id,new_comment_count);
+
+    }catch(error){
+        console.error("Error",error.message);
+    }
+});
+function change_bahiri_com_count(post_id,new_comment_count){
+    ////
+    let postElem=document.querySelector(".all_posts");
+    let corresponding_post_toid=postElem.querySelector(`[post-id="${post_id}"]`);
+    let given_like=corresponding_post_toid.querySelector(".comment_count").innerText=new_comment_count.total_comments;
+}
+
+function displayComment(comment){
+    //create a new paragraph element
+    const commentElement=document.createElement("p");
+    commentElement.textContent=comment;
+
+    //get the comment section
+    const post_comments_container=document.querySelector(".post_comments_container")
+
+    //insert the new comment as the first element.child
+    post_comments_container.insertBefore(commentElement,post_comments_container.firstChild);
+
+    }
+
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------//
+                    //-------------this is for the thulo post like----//
+//------------------------------------------------------------------------------------------------------------------------------------------------------------//
+document.querySelector(".thulo_post_like").addEventListener('click', async function() {
+    console.log('like clicked!');
+    let thulo_like_icon = document.querySelector("#thulo_like");
+    console.log(thulo_like_icon);
+    let thulo_popup=document.querySelector('.thulo_popup');
+    let post_id=thulo_popup.getAttribute("post-id");
+    try {
+        // Send the AJAX request using fetch and async/await
+        let csrfToken = getCookie('csrftoken');
+        let response = await fetch('/api/bahiri_like/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrfToken,
+            },
+            body: JSON.stringify({
+                'post': post_id,
+            }),
+        });
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        // Handle successful response
+        new_like_count=await response.json();
+        console.log(new_like_count);
+        ultaide_vitri(thulo_like_icon,new_like_count); // Use dom manipulation
+        bahira_change(post_id,new_like_count);
+    } catch (error) {
+        // Handle errors during the fetch
+        console.error('Error during fetch:', error.message);
+    }
+});
+function ultaide_vitri(thulo_like_icon,new_like_count){
+    console.log("babuwa me ulatgaya");
+    //<span class="vitri_like_count">${thulo_post_data.like_count}</span>
+
+    document.querySelector('.vitri_like_count').innerText=new_like_count.like;
+    if (thulo_like_icon.classList.contains("far")) {
+        console.log("like hanna paryo");
+        thulo_like_icon.classList.remove("far");
+        thulo_like_icon.classList.add("fas");
+    } else{
+        console.log("dislike hanna paryo");
+        thulo_like_icon.classList.remove("fas");
+        thulo_like_icon.classList.add("far");
+    }
+
+}
+function bahira_change(post_id,new_like_count){//vitra change vayesi corresponding post ko bahira pani change garnu paryo
+    let postElem=document.querySelector(".all_posts");
+    let giv_id_post=postElem.querySelector(`[post-id="${post_id}"]`);
+    let given_like=giv_id_post.querySelector("#like_me");
+    let like_count=giv_id_post.querySelector('.like_count');
+    like_count.innerText=new_like_count.like;
+    if (given_like.classList.contains("far")) {
+        console.log("like hanna paryo");
+        given_like.classList.remove("far");
+        given_like.classList.add("fas");
+    } else{
+        console.log("dislike hanna paryo");
+        given_like.classList.remove("fas");
+        given_like.classList.add("far");
+    }
+
+}
+
+
+
+
+    </script>
+
+</body>
+</html>

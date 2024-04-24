@@ -1,0 +1,120 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{crop.name}} Details</title>
+    <style>
+        *{
+            margin:0px;
+            padding:0px;
+        }
+        body{
+            margin:50px;
+            background-color:rgb(224, 254, 228);
+        }
+        .content{
+            display:flex;
+            flex-direction:column;
+            justify-content:center;
+            align-items:center;
+            
+        }
+        .image_container{
+            max-width:500px;
+            max-height:500px;
+        }
+        .img{
+            height:100%;
+            width:100%;
+        }
+        div{
+            display:flex;
+            flex-direction:column;
+            align-items:flex-start;
+            justify-content:center;
+            margin:5px;
+        }
+        .heading{
+            background-color:black;
+            color:white;
+            font-size:30px;
+            width:100%;
+            text-align:center;
+        }
+        .var{
+            margin-left:25px;
+        }
+        
+    </style>
+</head>
+
+<body>
+<section class="content">
+    <h1 class="heading">{{crop.name}} Details</h1>
+    <div class="image_container">
+        <img src="{{crop.picture.url}}" alt="Cotton" class="img">
+    </div>
+    <div class=informations>
+        {% comment %} <div class="name">
+            {{crop.name}}
+        </div> {% endcomment %}
+        <div class="varieties">
+            <h1>varieties</h1>
+            <ol class="var">
+            {{crop.varieties|safe}}
+            </ol>
+            {% comment %} Include information about different varieties available for each crop or fruit. {% endcomment %}
+        </div>
+        <div class="climateandsoil">
+            <h1>climate and soil</h1>
+            {{crop.climate_and_soil_requirements}}
+            {% comment %} Provide details on the optimal climate and soil conditions required for cultivation. {% endcomment %}
+        </div>
+        <div class="planting_time">
+            <h1>planting time</h1>
+            {{crop.planting_time}}
+            {% comment %} Specify the best time to plant the crop or fruit for optimal growth. {% endcomment %}
+        </div>
+        <div class="watering_needs">
+            <h1>watering needs</h1>
+            {{crop.watering_needs}}
+            {% comment %} Detail the watering requirements, including frequency and amount. {% endcomment %}
+        </div>
+        <div class="fertilization">
+            <h1>fertilization</h1>
+            {{crop.fertilization}}
+            {% comment %} Provide information on the type and amount of fertilizers needed at different stages of growth. {% endcomment %}
+        </div>
+        <div class="pest_and_diesease">
+            <h1>pest and diesease</h1>
+            {{crop.pest_and_disease_management}}
+            {% comment %} List common pests and diseases affecting the crop or fruit and suggest preventive and control measures. {% endcomment %}
+        </div>
+        <div class="harvesting Time">
+            <h1>harvesting time</h1>
+            {{crop.harvesting_time }}
+            {% comment %} Indicate the ideal time for harvesting to ensure maximum yield and quality. {% endcomment %}
+        </div>
+        <div class="post_harvest_handling">
+            <h1>post harvest handling</h1>
+            {{crop.post_harvest_handling}}
+            {% comment %} Include information on how to handle and store the crop or fruit after harvesting. {% endcomment %}
+        </div>
+        <div class="Market Information">
+            <h1>market information</h1>
+            {{crop.market_information}}
+            {% comment %} Include details on market trends, prices, and potential buyers to help farmers make informed decisions. {% endcomment %}
+        </div>
+        <div class="government_schemes">
+            <h1>government schemes</h1>
+            {{crop.government_schemes_and_subsidies}}
+            {% comment %} Share information about any government schemes or subsidies available for the cultivation of specific crops. {% endcomment %}
+        </div>
+    </div>
+</section>
+</body>
+
+</html>

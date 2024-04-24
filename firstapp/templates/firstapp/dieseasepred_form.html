@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Camera Capture</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"/>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction:column;
+            align-items: center;
+            justify-content: center;
+            height: auto;
+            margin: 0;
+            background-color:RGB(236, 243, 249);
+            word-break: break-all;
+
+        }
+
+        #cameraContainer {
+            text-align: center;
+            display:flex;
+            flex-direction:column;
+            margin-top:5px;
+        }
+        .open_close{
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+        }
+
+        #videoFeed {
+            width: 100%;
+            max-width: 400px;
+            height:45vh;
+            border: 2px solid #333;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+
+        #openCameraButton, #closeCameraButton, #captureButton, #retakeButton, #submitButton, #fileInput, #cropSelector {
+            padding: 10px;
+            margin: 5px;
+            cursor: pointer;
+        }
+
+        #openCameraButton, #closeCameraButton, #retakeButton, #submitButton, #fileInput, #cropSelector {
+            background-color: #007bff;
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+        }
+
+        #openCameraButton:hover, #closeCameraButton:hover, #retakeButton:hover, #submitButton:hover, #fileInput:hover, #cropSelector:hover {
+            background-color: #0056b3;
+        }
+
+        #captureButton {
+            background-color: #28a745;
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+        }
+
+        #captureButton:hover {
+            background-color: #218838;
+        }
+
+        #capturedImage {
+            width: 100%;
+            max-width: 400px;
+            {% comment %} max-height:400px; {% endcomment %}
+            border: 2px solid #333;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+        select{
+            text-align:center;
+        }
+        .back{
+           position:fixed;
+           top:20px;
+           left:20px;
+
+        }
+        .back a{
+        text-decoration:none;
+        }
+        .instruction{
+            display:block;
+            margin-top:150px;
+        }
+        .inst-para{
+            color:green;
+        }
+    </style>
+</head>
+<body>
+<section class="back">
+    <a href="{%url "homepage"%}"><i class="fas fa-arrow-left"></i> BACK HOME</a>
+</section>
+<div class="instruction">
+    <p class="inst-para">pick a leaf put it on the table and click the photo</P>
+</div>
+
+<div id="cameraContainer">
+    <select id="cropSelector">
+        <option value="potato">potato</option>
+        <option value="corn">corn</option>
+        <option value="grape">grapes</option>
+        <option value="apple">apple</option>
+        <option value="strawberry">strawberry</option>
+    </select>
+    <div class="open_close">
+        <button id="openCameraButton">Open Camera</button>
+        <button id="closeCameraButton" style="display: none;">Close Camera</button>
+    </div>
+    <video id="videoFeed" autoplay playsinline muted style="display: none;"></video>
+    <img id="capturedImage" style="display: none;">
+    <div class="group2">
+        <button id="captureButton" style="display: none;">Capture</button>
+        <button id="retakeButton" style="display: none;">Camera Retake</button>
+    </div>
+    <input type="file" accept="image/*" id="fileInput">
+    <button id="submitButton" style="display: none;">Submit</button>
+</div>
+<div class="predictions">
+    <h1 class="content"></h1>
+</div>
+
+<script>
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------------
+//                                      Function to get CSRF token from cookies
+//-------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    function getCookie(name) {
+        var cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+ //-------------------------------------------------------------------------------------------------------------------------------------------------------------------------   
+    document.addEventListener('DOMContentLoaded', function () {
+        const openCameraButton = document.getElementById('openCameraButton');
+        const closeCameraButton = document.getElementById('closeCameraButton');
+        const videoFeed = document.getElementById('videoFeed');
+        const capturedImage = document.getElementById('capturedImage');
+        const captureButton = document.getElementById('captureButton');
+        const retakeButton = document.getElementById('retakeButton');
+        const fileInput = document.getElementById('fileInput');
+        const cropSelector = document.getElementById('cropSelector');
+        const submitButton = document.getElementById('submitButton');
+
+        let stream = null;
+
+        // Check if the browser supports the getUserMedia API
+        if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+            openCameraButton.addEventListener('click', function () {
+                navigator.mediaDevices.getUserMedia({ video: true })
+                    .then(function (newStream) {
+                        // Stop the previous stream if it exists
+                        if (stream) {
+                            const tracks = stream.getTracks();
+                            tracks.forEach(track => track.stop());
+                        }
+
+                        // Display the new camera feed in the video element
+                        videoFeed.srcObject = newStream;
+                        videoFeed.style.display = 'block';
+                        closeCameraButton.style.display = 'block';
+                        openCameraButton.style.display = 'none';
+                        capturedImage.style.display = 'none';
+                        captureButton.style.display = 'block';
+                        retakeButton.style.display = 'none';
+                        submitButton.style.display = 'none';
+
+                        // Save the new stream
+                        stream = newStream;
+                    })
+                    .catch(function (error) {
+                        console.error('Error accessing camera:', error);
+                    });
+            });
+
+            closeCameraButton.addEventListener('click', function () {
+                if (stream) {
+                    const tracks = stream.getTracks();
+                    tracks.forEach(track => track.stop());
+                    videoFeed.srcObject = null;
+                    videoFeed.style.display = 'none';
+                    closeCameraButton.style.display = 'none';
+                    openCameraButton.style.display = 'block';
+                    capturedImage.style.display = 'none';
+                    captureButton.style.display = 'none';
+                    retakeButton.style.display = 'none';
+                    submitButton.style.display = 'none';
+                    stream = null;
+                }
+            });
+        } else {
+            alert('getUserMedia is not supported in this browser');
+        }
+
+        // Capture button click event
+        captureButton.addEventListener('click', function () {
+            // Create a canvas element to capture the image
+            const canvas = document.createElement('canvas');
+            const context = canvas.getContext('2d');
+            canvas.width = videoFeed.videoWidth;
+            canvas.height = videoFeed.videoHeight;
+
+            // Draw the current frame from the video feed onto the canvas
+            context.drawImage(videoFeed, 0, 0, canvas.width, canvas.height);
+
+            // Get the data URL of the captured image
+            const imageDataURL = canvas.toDataURL('image/png');
+
+            // Display the captured image
+            capturedImage.src = imageDataURL;
+            capturedImage.style.display = 'block';
+
+            // Stop the video feed
+            if (stream) {
+                const tracks = stream.getTracks();
+                tracks.forEach(track => track.stop());
+            }
+
+            // Show appropriate buttons
+            videoFeed.style.display = 'none';
+            closeCameraButton.style.display = 'none';
+            openCameraButton.style.display = 'none';
+            captureButton.style.display = 'none';
+            retakeButton.style.display = 'block';
+            submitButton.style.display = 'block';
+        });
+
+        // Retake button click event
+        retakeButton.addEventListener('click', function () {
+            // Clear the captured image
+            capturedImage.src = '';
+            capturedImage.style.display = 'none';
+
+            // Restart the camera feed
+            navigator.mediaDevices.getUserMedia({ video: true })
+                .then(function (newStream) {
+                    // Stop the previous stream if it exists
+                    if (stream) {
+                        const tracks = stream.getTracks();
+                        tracks.forEach(track => track.stop());
+                    }
+
+                    // Display the new camera feed in the video element
+                    videoFeed.srcObject = newStream;
+                    videoFeed.style.display = 'block';
+                    closeCameraButton.style.display = 'block';
+                    openCameraButton.style.display = 'none';
+                    captureButton.style.display = 'block';
+                    retakeButton.style.display = 'none';
+                    submitButton.style.display = 'none';
+
+                    // Save the new stream
+                    stream = newStream;
+                })
+                .catch(function (error) {
+                    console.error('Error accessing camera:', error);
+                });
+        });
+
+        // File input change event
+        fileInput.addEventListener('change', function (event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    // Display the chosen image in the video section
+                    capturedImage.src = e.target.result;
+                    capturedImage.style.display = 'block';
+
+                    // Hide the video feed
+                    videoFeed.style.display = 'none';
+                    closeCameraButton.style.display = 'none';
+                    openCameraButton.style.display = 'none';
+                    captureButton.style.display = 'none';
+                    retakeButton.style.display = 'block';
+                    submitButton.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Submit button click event using fetch and async/await
+        submitButton.addEventListener('click', async function () {
+            // Simulate sending the captured image data and selected crop to the backend
+            const imageDataURL = capturedImage.src;
+            const selectedCrop = cropSelector.value;
+            console.log('Submitting image to backend:', imageDataURL);
+            console.log('Selected Crop:', selectedCrop);
+
+            // Simulate sending data to the backend using fetch
+            try {
+                let csrfToken = getCookie('csrftoken');
+                const response = await fetch('/api/predict_diesease/', {
+                    method: 'POST',
+                    headers: {
+                        
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': csrfToken,
+                    },
+                    body: JSON.stringify({
+                        imageData: imageDataURL,
+                        selectedCrop: selectedCrop,
+                    }),
+                });
+
+                if (response.ok) {
+                    console.log('Image submitted successfully.');
+                    data=await response.json();
+                    content=document.querySelector(".content");
+                    content.innerText=data;
+                    console.log(data)
+                    // Optionally handle the response from the backend
+                } else {
+                    console.error('Error submitting image:', response.status);
+                }
+            } catch (error) {
+                console.error('Error submitting image:', error);
+            }
+        });
+    });
+</script>
+
+</body>
+</html>
+
+
+
